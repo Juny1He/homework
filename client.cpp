@@ -28,6 +28,7 @@ void readFile(){
 }
 int main(void){
 
+    while(1){
 //  set up TCP --from Beej;
     int sockfd = 0;
     struct addrinfo hints, *servinfo, *p;
@@ -63,7 +64,7 @@ int main(void){
     freeaddrinfo(servinfo);
     printf("The client is up and running");
 
-    while(1){
+
         readFile();
         char nation[20];
         int userId = 314159;
