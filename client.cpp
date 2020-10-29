@@ -29,10 +29,10 @@ void readFile(){
 int main(void){
     while(1){
     //  set up TCP --from Beej;
-        int a;
+        int inputId;
         printf("input your query ID\n");
-        scanf("%d",&a);
-        printf("query Id is %d",a);
+        scanf("%d",&inputId);
+        printf("query Id is %d\n",inputId);
         int sockfd = 0;
         struct addrinfo hints, *servinfo, *p;
         int rv;
@@ -70,15 +70,14 @@ int main(void){
 
         readFile();
         char nation[20];
-        int userId = 314159;
         int num_relation;
         send(sockfd, nation, sizeof nation, 0);
-        send(sockfd,(char *)&userId, sizeof userId,0);
+        send(sockfd,(char *)&inputId, sizeof inputId,0);
         send(sockfd,(char *)& num_relation, sizeof num_relation,0);
-        printf("The client sent the nation %s, userId %d, num_relation %d to servermain\n",nation,userId,num_relation);
+        printf("The client sent the nation %s, userId %d, num_relation %d to servermain\n",nation,inputId,num_relation);
         int result = 0;
         recv(sockfd,(char *)&result, sizeof result,0);
-        printf("The client received recommendation %d from servermain",result);
+        printf("The client received recommendation %d from servermain\n",result);
     }
 
 }
