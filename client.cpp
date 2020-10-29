@@ -30,9 +30,14 @@ int main(void){
     while(1){
     //  set up TCP --from Beej;
         int inputId;
+        char nation[20];
         printf("input your query ID\n");
         scanf("%d",&inputId);
         printf("query Id is %d\n",inputId);
+
+        printf("input your nation\n");
+        scanf("%s",nation);
+        printf("query Id is %s\n",nation);
         int sockfd = 0;
         struct addrinfo hints, *servinfo, *p;
         int rv;
@@ -69,8 +74,7 @@ int main(void){
 
 
         readFile();
-        char nation[20];
-        int num_relation;
+
         send(sockfd, nation, sizeof nation, 0);
         send(sockfd,(char *)&inputId, sizeof inputId,0);
         send(sockfd,(char *)& num_relation, sizeof num_relation,0);
