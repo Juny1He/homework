@@ -148,8 +148,7 @@ int main(){
         int num_relation;
         recv(new_fd, nation,sizeof nation, 0);
         recv(new_fd, (char *)&userId,sizeof userId,0);
-        recv(new_fd, (char *)&num_relation,sizeof num_relation,0);
-        printf("The servermain received the nation %s, userId %d, num_relation %d to servermain\n",nation,userId,num_relation);
+        printf("The servermain received the nation %s, userId %d from client\n",nation,userId);
         int recUser = udpFunc(ch,userId);
         send(new_fd,(const char *)&recUser, sizeof(recUser),0);
         printf("The recommended user is %d.\n", recUser);

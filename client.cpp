@@ -70,7 +70,7 @@ int main(void){
         }
 
         freeaddrinfo(servinfo);
-        printf("The client is up and running");
+        printf("The client is up and running\n");
 
 
         readFile();
