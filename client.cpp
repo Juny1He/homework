@@ -77,8 +77,7 @@ int main(void){
 
         send(sockfd, nation, sizeof nation, 0);
         send(sockfd,(char *)&inputId, sizeof inputId,0);
-        send(sockfd,(char *)& num_relation, sizeof num_relation,0);
-        printf("The client sent the nation %s, userId %d, num_relation %d to servermain\n",nation,inputId,num_relation);
+        printf("The client sent the nation %s, userId %d to servermain\n",nation,inputId);
         int result = 0;
         recv(sockfd,(char *)&result, sizeof result,0);
         printf("The client received recommendation %d from servermain\n",result);
