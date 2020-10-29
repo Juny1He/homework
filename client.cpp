@@ -32,7 +32,7 @@ int main(void){
 //        int a;
 //        printf("input your query ID\n");
 //        scanf("%d",&a);
-        printf("query Id is %d",a);
+//        printf("query Id is %d",a);
         int sockfd = 0;
         struct addrinfo hints, *servinfo, *p;
         int rv;
