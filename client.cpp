@@ -12,6 +12,7 @@
 #include <signal.h>
 #include <ctype.h>
 #include <vector>
+#include "iostream"
 using namespace std;
 
 #define AWSPORT "25859"   //aws TCP port
@@ -30,6 +31,10 @@ int main(void){
 
     while(1){
 //  set up TCP --from Beej;
+    int a;
+    cout << "input your query ID" << endl;
+    cin >> a;
+    cout << "query Id is " << a << endl;
     int sockfd = 0;
     struct addrinfo hints, *servinfo, *p;
     int rv;
