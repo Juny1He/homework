@@ -33,21 +33,20 @@ struct cmp{
         return b.second > a.second;
     }
 };
-void algo(int userId, string nation, char* rr){
+string algo(int userId, string nation){
         string non = "None";
-        printf("The userId is %d, and the nation is %s\n",userId,(char *)&nation);
+        cout << "The userId is " << userId << " and the nation is " << nation << endl;
         unordered_map<int,unordered_set<int>> cur = graph[nation];
 
         if(cur.find(userId) == cur.end()) {
             printf("cur.find(userId) == cur.end()\n");
-            char *rr = &non[0];
-            return;
+
+            return non;
         }
         unordered_set<int> curChildren = cur[userId];
         if(curChildren.size() == cur.size()-1) {
             printf("curChildren.size() == cur.size()-1\n");
-            char *rr = &non[0];
-            return;
+            return non;
         }
         unordered_set<int> notConnected;
         for(auto const&k:cur){
@@ -76,17 +75,15 @@ void algo(int userId, string nation, char* rr){
         if(max == 0){
             pair<int,int> x = pq.top();
             printf("max == 0, the result is %d", x.second);
-            rr = &to_string(x.second)[0];
-            return;
+            return to_string(x.second);
         }
         for(auto const&k : notConnectedVSCommon){
             if(k.second == max) {
                 printf("max != 0, the result is %d", k.first);
-                rr = &to_string(k.first)[0];
+                return to_string(k.first);
             }
         }
-        rr = &non[0];
-        return;
+        return non;
 }
 
  void print_map(std::unordered_map<string,unordered_map<int,unordered_set<int>>> const &x)
@@ -208,10 +205,12 @@ int main(void){
         recvfrom(sockfd, userId, sizeof userId,0,(struct sockaddr *)&their_addr,&addr_len);
         recvfrom(sockfd,nation,sizeof nation,0,(struct sockaddr *)&their_addr,&addr_len);
         printf("The server A has received userId %s from nation %s \n", userId, nation);
-        char result[20];
-        algo(stoi(userId), nation, result);
-        printf("The Server A has get the recommendation %s \n",result);
-        sendto(sockfd,result,sizeof result,0,(struct sockaddr *)&their_addr, addr_len);
+        string result;
+        char tt[20];
+        strncpy(tt,result.c_str(),result.length()+1);
+        result = algo(stoi(userId), nation);
+        cout << "The Server A has get the recommendation %s" << result << endl;
+        sendto(sockfd,tt,sizeof tt,0,(struct sockaddr *)&their_addr, addr_len);
         printf("The Server A has finished sending the recommendations to MainServer.\n");
     }
 }
