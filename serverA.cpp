@@ -188,10 +188,10 @@ int main(void){
     while(1){
         addr_len = sizeof their_addr;
         char nation[30];
-        string userId;
-        recvfrom(sockfd, (char *)&userId, sizeof userId,0,(struct sockaddr *)&their_addr,&addr_len);
+        char userId[20];
+        recvfrom(sockfd, userId, sizeof userId,0,(struct sockaddr *)&their_addr,&addr_len);
         recvfrom(sockfd,nation,sizeof nation,0,(struct sockaddr *)&their_addr,&addr_len);
-        printf("The server A has received userId %s from nation %s \n", (char *)&userId, nation);
+        printf("The server A has received userId %s from nation %s \n", userId, nation);
         string result;
         result = algo(stoi(userId), nation);
         printf("The Server A has get the recommendation %s \n",(char *)&result);
