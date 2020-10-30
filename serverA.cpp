@@ -64,10 +64,15 @@ string algo(int userId, string nation){
         }
         if(max == 0){
             pair<int,int> x = pq.top();
+            printf("max == 0, the result is %d", x.second);
             return to_string(x.second);
         }
         for(auto const&k : notConnectedVSCommon){
-            if(k.second == max) return to_string(k.first);
+
+            if(k.second == max) {
+                printf("max != 0, the result is %d", k.first);
+                return to_string(k.first);
+            }
         }
         return "None";
 
