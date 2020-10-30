@@ -12,6 +12,7 @@
 #include <signal.h>
 #include <ctype.h>
 #include <vector>
+#include <string>
 using namespace std;
 
 #define AWSPORT "25859"   //aws TCP port
@@ -29,11 +30,11 @@ void readFile(){
 int main(void){
     while(1){
     //  set up TCP --from Beej;
-        int inputId;
+        string inputId;
         char nation[30];
         printf("input your query ID\n");
-        scanf("%d",&inputId);
-        printf("query Id is %d\n",inputId);
+        scanf("%s",(char *)&inputId);
+        printf("query Id is %d\n",(char *)&inputId);
 
         printf("input your nation\n");
         scanf("%s",nation);
@@ -77,7 +78,7 @@ int main(void){
 
         send(sockfd, nation, sizeof nation, 0);
         send(sockfd,(char *)&inputId, sizeof inputId,0);
-        printf("The client sent the nation %s, userId %d to servermain\n",nation,inputId);
+        printf("The client sent the nation %s, userId %d to servermain\n",nation,(char *)&inputId);
         int result = 0;
         recv(sockfd,(char *)&result, sizeof result,0);
         printf("The client received recommendation %d from servermain\n",result);

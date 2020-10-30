@@ -10,6 +10,7 @@
 #include <arpa/inet.h>
 #include <sys/wait.h>
 #include <signal.h>
+#include <string>
 
 #define TCPPORT "25859"   //TCP port
 #define UDPPORT "24859"		//UDP port
@@ -18,7 +19,7 @@
 #define PORTA "21859"
 #define PORTB "22859"
 #define PORTC "23859"
-
+using namespace std;
 
 void *get_in_addr(struct sockaddr *sa)
 {
@@ -28,7 +29,7 @@ void *get_in_addr(struct sockaddr *sa)
     return &(((struct sockaddr_in6*)sa)->sin6_addr);
 }
 
-int udpFunc( char ch, int userId, char* nation){
+int udpFunc( char ch, string userId, char* nation){
     int mysock;
     struct addrinfo hints, *servinfo, *p;
     int rv;
@@ -65,7 +66,7 @@ int udpFunc( char ch, int userId, char* nation){
 //    using UDP to send data;
     sendto(mysock,(char *)& userId,sizeof userId, 0, p->ai_addr,p->ai_addrlen);
     sendto(mysock,nation, sizeof nation,0,p->ai_addr,p->ai_addrlen);
-    printf("The servermain sent userId %d to server %c.\n",userId,ch);
+    printf("The servermain sent userId %s to server %c.\n",(char *)&userId,ch);
 
     int result = 0;
     recvfrom(mysock,(char *)& result, sizeof result, 0, NULL,NULL);
@@ -142,14 +143,14 @@ int main(){
         int client_port = addrTheir.sin_port;
 
 
-        int userId;
+        string userId;
 //        char ch;
         char ch = 'A';
         char nation[30];
         int num_relation;
         recv(new_fd, nation,sizeof nation, 0);
         recv(new_fd, (char *)&userId,sizeof userId,0);
-        printf("The servermain received the nation %s, userId %d from client\n",nation,userId);
+        printf("The servermain received the nation %s, userId %s from client\n",nation,(char *)&userId);
         int recUser = udpFunc(ch,userId, nation);
         send(new_fd,(const char *)&recUser, sizeof(recUser),0);
         printf("The recommended user is %d.\n", recUser);
