@@ -1,7 +1,7 @@
 all:
-		gcc  -o servermain servermain.cpp 
-		gcc -std=c++11 -o serverA serverA.cpp 
-		gcc  -o client client.cpp 
+		g++  -o servermain servermain.cpp
+		g++ -std=c++11 -o serverA serverA.cpp
+		g++  -o client client.cpp
 
 
 $(phony serverA): 
