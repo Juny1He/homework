@@ -34,11 +34,18 @@ struct cmp{
     }
 };
 string algo(int userId, string nation){
-
+        printf("The userId is %d, and the nation is %s\n",userId,(char *)&nation);
         unordered_map<int,unordered_set<int>> cur = graph[nation];
-        if(cur.find(userId) == cur.end()) return "None";
+
+        if(cur.find(userId) == cur.end()) {
+            printf("cur.find(userId) == cur.end()\n");
+            return "None";
+        }
         unordered_set<int> curChildren = cur[userId];
-        if(curChildren.size() == cur.size()-1) return "None";
+        if(curChildren.size() == cur.size()-1) {
+            printf("curChildren.size() == cur.size()-1\n");
+            return "None";
+        }
         unordered_set<int> notConnected;
         for(auto const&k:cur){
             if(k.first == userId) continue;
@@ -62,13 +69,13 @@ string algo(int userId, string nation){
                 max = cnt;
             }
         }
+
         if(max == 0){
             pair<int,int> x = pq.top();
             printf("max == 0, the result is %d", x.second);
             return to_string(x.second);
         }
         for(auto const&k : notConnectedVSCommon){
-
             if(k.second == max) {
                 printf("max != 0, the result is %d", k.first);
                 return to_string(k.first);
