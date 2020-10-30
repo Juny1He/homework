@@ -20,89 +20,89 @@
 #define HOST "localhost"
 using namespace std;
 
-unordered_map<string ,unordered_map<int,unordered_set<int>>> graph;
+// unordered_map<string ,unordered_map<int,unordered_set<int>>> graph;
 void algo(int userId, char* nation){
 
 }
 
-//void print_map(std::unordered_map<string,unordered_map<int,unordered_set<int>>> const &x)
-//{
-//    for(auto const& m : x){
-//        cout << "nation: " << m.first<<endl;
-//        for (auto const& pair: m.second) {
-//            cout << "{" << pair.first << ":";
-//            for(auto const& k : pair.second)
-//                std::cout << k << ",";
-//            cout << "}" << endl;
-//        }
-//    }
-//
-//}
+// void print_map(std::unordered_map<string,unordered_map<int,unordered_set<int>>> const &x)
+// {
+//     for(auto const& m : x){
+//         cout << "nation: " << m.first<<endl;
+//         for (auto const& pair: m.second) {
+//             cout << "{" << pair.first << ":";
+//             for(auto const& k : pair.second)
+//                 std::cout << k << ",";
+//             cout << "}" << endl;
+//         }
+//     }
 
-void read_file() {
+// }
 
-    ifstream infile("/Users/juny1/Downloads/test.txt");
+// void read_file() {
 
-    string line;
-    string nation;
-    string cur;
-    string delimiter = " ";
-    while(getline(infile,line)){
+//     ifstream infile("/Users/juny1/Downloads/test.txt");
 
-        if(line[0] >= '0' && line[0] <= '9'){
-            size_t pos = line.find(delimiter);
-            cur = line.substr(0,pos);
-            int temp;
+//     string line;
+//     string nation;
+//     string cur;
+//     string delimiter = " ";
+//     while(getline(infile,line)){
 
-            while((pos = line.find(delimiter)) != string :: npos){
-                cur = line.substr(0,pos);
-                if(cur.length() != 0){
-                    temp = stoi(cur, nullptr);
-                    graph[nation].insert({temp,{}});
-                    int num = stoi(cur, nullptr);
-                    cout << "test: " << num << " ";
-                    break;
-                }
+//         if(line[0] >= '0' && line[0] <= '9'){
+//             size_t pos = line.find(delimiter);
+//             cur = line.substr(0,pos);
+//             int temp;
 
-                line.erase(0,pos+delimiter.length());
-            }
-            string token;
-            line.erase(0,pos+delimiter.length());
-            while((pos = line.find(delimiter)) != string :: npos){
-                token = line.substr(0,pos);
-                if(token.length() != 0){
+//             while((pos = line.find(delimiter)) != string :: npos){
+//                 cur = line.substr(0,pos);
+//                 if(cur.length() != 0){
+//                     temp = stoi(cur, nullptr);
+//                     graph[nation].insert({temp,{}});
+//                     int num = stoi(cur, nullptr);
+//                     cout << "test: " << num << " ";
+//                     break;
+//                 }
 
-                    int num = stoi(token, nullptr);
-                    graph[nation][temp].insert(num);
-                    cout << "test: " << num<< " ";
-                }
+//                 line.erase(0,pos+delimiter.length());
+//             }
+//             string token;
+//             line.erase(0,pos+delimiter.length());
+//             while((pos = line.find(delimiter)) != string :: npos){
+//                 token = line.substr(0,pos);
+//                 if(token.length() != 0){
 
-                line.erase(0,pos+delimiter.length());
-            }
-            if(line.length() != 0){
+//                     int num = stoi(token, nullptr);
+//                     graph[nation][temp].insert(num);
+//                     cout << "test: " << num<< " ";
+//                 }
 
-                int num = stoi(line, nullptr);
-                graph[nation][temp].insert(num);
-                cout << "test: " << num;
-            }
-//        cout << line << endl;
-            cout << endl;
-        }else{
-            unordered_map<int,unordered_set<int>> map;
-            graph.insert({line, map});
-            nation = line;
-            cout << "The nation is " << nation << endl;
-        }
-//        print_map(graph);
-    }
-}
+//                 line.erase(0,pos+delimiter.length());
+//             }
+//             if(line.length() != 0){
+
+//                 int num = stoi(line, nullptr);
+//                 graph[nation][temp].insert(num);
+//                 cout << "test: " << num;
+//             }
+// //        cout << line << endl;
+//             cout << endl;
+//         }else{
+//             unordered_map<int,unordered_set<int>> map;
+//             graph.insert({line, map});
+//             nation = line;
+//             cout << "The nation is " << nation << endl;
+//         }
+//         // print_map(graph);
+//     }
+// }
 
 
 int main(void){
 
 //    set up UDP -- From Beej
 
-    read_file();
+    // read_file();
     int sockfd;
     int rv;
     struct addrinfo hints;
