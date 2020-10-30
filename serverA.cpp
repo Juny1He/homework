@@ -41,7 +41,7 @@ void algo(int userId, char* nation){
  }
 
  void read_file() {
-
+    
      ifstream infile("/home/student/Documents/data/data1.txt");
 
      string line;
@@ -49,7 +49,6 @@ void algo(int userId, char* nation){
      string cur;
      string delimiter = " ";
      while(getline(infile,line)){
-
          if(line[0] >= '0' && line[0] <= '9'){
              size_t pos = line.find(delimiter);
              cur = line.substr(0,pos);
@@ -94,8 +93,9 @@ void algo(int userId, char* nation){
              nation = line;
              cout << "The nation is " << nation << endl;
          }
-          print_map(graph);
+          
      }
+     print_map(graph);
  }
 
 
