@@ -29,7 +29,7 @@ void *get_in_addr(struct sockaddr *sa)
     return &(((struct sockaddr_in6*)sa)->sin6_addr);
 }
 
-int udpFunc( char ch, char* userId, char* nation){
+char* udpFunc( char ch, char* userId, char* nation){
     int mysock;
     struct addrinfo hints, *servinfo, *p;
     int rv;
@@ -69,7 +69,7 @@ int udpFunc( char ch, char* userId, char* nation){
     printf("The servermain sent userId %s to server %c.\n",userId,ch);
     printf("The servermain received the nation %s, userId %s from client\n",nation,userId);
 
-    int result = 0;
+    char result[20];
     recvfrom(mysock,(char *)& result, sizeof result, 0, NULL,NULL);
     return result;
 
@@ -152,9 +152,9 @@ int main(){
         recv(new_fd, nation,sizeof nation, 0);
         recv(new_fd, userId,sizeof userId,0);
         printf("The servermain received the nation %s, userId %s from client\n",nation,userId);
-        int recUser = udpFunc(ch,userId, nation);
-        send(new_fd,(const char *)&recUser, sizeof(recUser),0);
-        printf("The recommended user is %d.\n", recUser);
+        char* recUser = udpFunc(ch,userId, nation);
+        send(new_fd,recUser, sizeof(recUser),0);
+        printf("The recommended user is %s.\n", recUser);
         printf("The AWS has successfully finished sending the reduction value to client.\n");
         close(new_fd);
     }
