@@ -33,7 +33,7 @@ struct cmp{
         return b.second > a.second;
     }
 };
-string algo(int userId, string nation){
+char* algo(int userId, string nation){
         printf("The userId is %d, and the nation is %s\n",userId,(char *)&nation);
         unordered_map<int,unordered_set<int>> cur = graph[nation];
 
@@ -204,10 +204,10 @@ int main(void){
         recvfrom(sockfd, userId, sizeof userId,0,(struct sockaddr *)&their_addr,&addr_len);
         recvfrom(sockfd,nation,sizeof nation,0,(struct sockaddr *)&their_addr,&addr_len);
         printf("The server A has received userId %s from nation %s \n", userId, nation);
-        string result;
+        char* result;
         result = algo(stoi(userId), nation);
-        printf("The Server A has get the recommendation %s \n",(char *)&result);
-        sendto(sockfd,(char *)&result,sizeof result,0,(struct sockaddr *)&their_addr, addr_len);
+        printf("The Server A has get the recommendation %s \n",result);
+        sendto(sockfd,result,sizeof result,0,(struct sockaddr *)&their_addr, addr_len);
         printf("The Server A has finished sending the recommendations to MainServer.\n");
     }
 }
