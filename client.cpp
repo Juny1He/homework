@@ -34,7 +34,7 @@ int main(void){
         char nation[30];
         printf("input your query ID\n");
         scanf("%s",(char *)&inputId);
-        printf("query Id is %d\n",(char *)&inputId);
+        printf("query Id is %s\n",(char *)&inputId);
 
         printf("input your nation\n");
         scanf("%s",nation);
@@ -78,7 +78,7 @@ int main(void){
 
         send(sockfd, nation, sizeof nation, 0);
         send(sockfd,(char *)&inputId, sizeof inputId,0);
-        printf("The client sent the nation %s, userId %d to servermain\n",nation,(char *)&inputId);
+        printf("The client sent the nation %s, userId %s to servermain\n",nation,(char *)&inputId);
         int result = 0;
         recv(sockfd,(char *)&result, sizeof result,0);
         printf("The client received recommendation %d from servermain\n",result);
