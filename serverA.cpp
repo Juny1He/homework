@@ -93,7 +93,7 @@ void read_file() {
             nation = line;
             cout << "The nation is " << nation << endl;
         }
-        print_map(graph);
+//        print_map(graph);
     }
 }
 
