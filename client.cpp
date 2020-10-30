@@ -30,7 +30,7 @@ int main(void){
     while(1){
     //  set up TCP --from Beej;
         int inputId;
-        char nation[20];
+        char nation[30];
         printf("input your query ID\n");
         scanf("%d",&inputId);
         printf("query Id is %d\n",inputId);

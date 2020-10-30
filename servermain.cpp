@@ -28,7 +28,7 @@ void *get_in_addr(struct sockaddr *sa)
     return &(((struct sockaddr_in6*)sa)->sin6_addr);
 }
 
-int udpFunc( char ch, int userId){
+int udpFunc( char ch, int userId, char* nation){
     int mysock;
     struct addrinfo hints, *servinfo, *p;
     int rv;
@@ -64,6 +64,7 @@ int udpFunc( char ch, int userId){
 
 //    using UDP to send data;
     sendto(mysock,(char *)& userId,sizeof userId, 0, p->ai_addr,p->ai_addrlen);
+    sendto(mysock,nation, sizeof nation,0,p->ai_addr,p->ai_addrlen);
     printf("The servermain sent userId %d to server %c.\n",userId,ch);
 
     int result = 0;
@@ -144,12 +145,12 @@ int main(){
         int userId;
 //        char ch;
         char ch = 'A';
-        char nation[20];
+        char nation[30];
         int num_relation;
         recv(new_fd, nation,sizeof nation, 0);
         recv(new_fd, (char *)&userId,sizeof userId,0);
         printf("The servermain received the nation %s, userId %d from client\n",nation,userId);
-        int recUser = udpFunc(ch,userId);
+        int recUser = udpFunc(ch,userId, nation);
         send(new_fd,(const char *)&recUser, sizeof(recUser),0);
         printf("The recommended user is %d.\n", recUser);
         printf("The AWS has successfully finished sending the reduction value to client.\n");
