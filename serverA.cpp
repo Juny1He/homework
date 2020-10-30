@@ -16,13 +16,60 @@
 #include <unordered_map>
 #include <unordered_set>
 #include <string>
+#include <map>
+#include <queue>
+//#include <priority_queue>
 
 #define MYPORT "21859"   // temp port number for ServerA
 #define HOST "localhost"
 using namespace std;
 
 unordered_map<string ,unordered_map<int,unordered_set<int> > > graph;
-void algo(int userId, char* nation){
+struct cmp{
+    bool operator() (pair<int,int> a, pair<int,int> b ){//默认是less函数
+        //返回true时，a的优先级低于b的优先级（a排在b的后面）
+
+        if( a.second== b.second ) return a.first > b.first;
+        return b.second > a.second;
+    }
+};
+string algo(int userId, string nation){
+
+        unordered_map<int,unordered_set<int>> cur = graph[nation];
+        if(cur.find(userId) == cur.end()) return "None";
+        unordered_set<int> curChildren = cur[userId];
+        if(curChildren.size() == cur.size()-1) return "None";
+        unordered_set<int> notConnected;
+        for(auto const&k:cur){
+            if(k.first == userId) continue;
+            if(curChildren.find(k.first) != curChildren.end()) continue;
+            notConnected.insert(k.first);
+        }
+        map<int,int> notConnectedVSCommon;
+        int max = 0;
+        priority_queue< pair<int,int>, vector<pair<int,int>>,cmp> pq;
+        for(auto const&k : notConnected){
+            int cnt = 0;
+            unordered_set<int> children = cur[k];
+            for(auto const&c: children){
+                if(curChildren.find(c) != curChildren.end()){
+                    cnt++;
+                }
+            }
+            pq.push({k,children.size()});
+            notConnectedVSCommon.insert({k,cnt});
+            if(max < cnt){
+                max = cnt;
+            }
+        }
+        if(max == 0){
+            pair<int,int> x = pq.top();
+            return to_string(x.second);
+        }
+        for(auto const&k : notConnectedVSCommon){
+            if(k.second == max) return to_string(k.first);
+        }
+        return "None";
 
 }
 
@@ -141,13 +188,13 @@ int main(void){
     while(1){
         addr_len = sizeof their_addr;
         char nation[30];
-        int userId;
+        string userId;
         recvfrom(sockfd, (char *)&userId, sizeof userId,0,(struct sockaddr *)&their_addr,&addr_len);
         recvfrom(sockfd,nation,sizeof nation,0,(struct sockaddr *)&their_addr,&addr_len);
-        printf("The server A has received userId %d from nation %s \n", userId, nation);
-        int result;
-        algo(userId, nation);
-        printf("The Server A has get the recommendation %d \n",result);
+        printf("The server A has received userId %s from nation %s \n", (char *)&userId, nation);
+        string result;
+        result = algo(stoi(userId), nation);
+        printf("The Server A has get the recommendation %s \n",(char *)&result);
         sendto(sockfd,(char *)&result,sizeof result,0,(struct sockaddr *)&their_addr, addr_len);
         printf("The Server A has finished sending the recommendations to MainServer.\n");
     }
