@@ -47,7 +47,7 @@ char* udpFunc( char ch, char* userId, char* nation){
 
     if((rv = getaddrinfo(HOST,backserver_port,&hints,&servinfo)) != 0){
         fprintf(stderr,"getaddrinfo: %s\n", gai_strerror(rv));
-        return 1;
+        exit(1);
     }
 //    loop through all the results and make a socket ---- Beej
     for(p = servinfo; p!= NULL; p = p->ai_next){
@@ -60,7 +60,7 @@ char* udpFunc( char ch, char* userId, char* nation){
 
     if(p == NULL){
         fprintf(stderr, "talker: failed to bind socket\n");
-        return 2;
+        exit(2);
     }
 
 //    using UDP to send data;
