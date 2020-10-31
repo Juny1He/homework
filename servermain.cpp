@@ -65,14 +65,18 @@ string udpFunc( char ch, char* userId, char* nation){
     }
 
 //    using UDP to send data;
-    printf("Before: The servermain received the nation %s, userId %s from client\n",nation,userId);
-    sendto(mysock,userId, sizeof userId, 0, p->ai_addr,p->ai_addrlen);
-    sendto(mysock,nation, sizeof nation, 0, p->ai_addr,p->ai_addrlen);
-    printf("After: The servermain sent userId %s and nation %s to server %c.\n",userId,nation,ch);
+    string temp_userId(userId);
+    string temp_nation(nation);
+    string temp_sendToServerA = temp_nation+" "+temp_userId;
+    char sendToServerA[1024];
+    strncpy(sendToServerA,temp_sendToServerA.c_str(),temp_sendToServerA.length());
+    sendto(mysock,sendToServerA, sizeof sendToServerA, 0, p->ai_addr,p->ai_addrlen);
+    printf("After: The servermain sent userId and nation %s to server %c.\n",,ch);
 
 
     char result[1024];
     recvfrom(mysock, result, sizeof result, 0, NULL,NULL);
+    printf("The recommendation result in function %s.\n",result);
     string temp(result);
     return temp;
 
