@@ -211,11 +211,11 @@ int main(void){
     printf("The server A is up and running using UDP on port %s. \n",MYPORT);
     while(1){
         addr_len = sizeof their_addr;
-        char nation[30];
+        char nation[1024];
         char userId[20];
         recvfrom(sockfd, userId, sizeof userId,0,(struct sockaddr *)&their_addr,&addr_len);
         recvfrom(sockfd,nation,sizeof nation,0,(struct sockaddr *)&their_addr,&addr_len);
-        printf("The server A has received userId %s from nation %s \n", userId, nation);
+        cout << "The server A has received userId "<<userId << " from nation" << nation << endl;
         string result;
         char tt[20];
         result = algo(stoi(userId), nation);
