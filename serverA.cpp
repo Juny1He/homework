@@ -33,11 +33,21 @@ struct cmp{
         return b.second > a.second;
     }
 };
+void print_small_map(unordered_map<int,unordered_set<int>> const &x)
+{
+    for (auto const& pair: x) {
+        cout << "{" << pair.first << ":";
+        for(auto const& k : pair.second)
+            std::cout << k << ",";
+        cout << "}" << endl;
+    }
+
+}
 string algo(int userId, string nation){
         string non = "None";
         cout << "The userId is " << userId << " and the nation is " << nation << endl;
         unordered_map<int,unordered_set<int>> cur = graph[nation];
-
+        print_small_map(cur);
         if(cur.find(userId) == cur.end()) {
             printf("cur.find(userId) == cur.end()\n");
 
@@ -99,6 +109,7 @@ string algo(int userId, string nation){
      }
 
  }
+
 
  void read_file() {
     
