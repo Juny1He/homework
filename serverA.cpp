@@ -216,7 +216,7 @@ int main(void){
         recvfrom(sockfd, recvFromServerMain, sizeof recvFromServerMain,0,(struct sockaddr *)&their_addr,&addr_len);
         cout << "The server A has received userId from nation " << recvFromServerMain<< endl;
         string str_total(recvFromServerMain);
-        if(str_total.compare("send data")){
+        if(str_total.compare("send data") == 0){
             string nationSet = "nation: ";
             for(auto const& m : graph){
                 nationSet = nationSet+" "+m.first;
