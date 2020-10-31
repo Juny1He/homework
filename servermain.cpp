@@ -146,7 +146,7 @@ int main(){
         int client_port = addrTheir.sin_port;
 
 
-        char userId[20];
+        char userId[1024];
 //        char ch;
         char ch = 'A';
         char nation[1024];
