@@ -31,7 +31,7 @@ void readFile(){
 int main(void){
     while(1){
     //  set up TCP --from Beej;
-        char* inputId[20];
+        char inputId[20];
         char nation[30];
         printf("input your query ID\n");
         scanf("%s",inputId);
@@ -79,7 +79,7 @@ int main(void){
 
         send(sockfd, nation, sizeof nation, 0);
         send(sockfd,inputId, sizeof inputId,0);
-        printf("The client sent the nation %s, userId %s to servermain\n",nation,&inputId);
+        printf("The client sent the nation %s, userId %s to servermain\n",nation,inputId);
         char result[20];
         recv(sockfd,(char *)&result, sizeof result,0);
         string output_result(result);
