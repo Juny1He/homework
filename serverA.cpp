@@ -214,8 +214,8 @@ int main(void){
         char nation[1024];
         char userId[1024];
         recvfrom(sockfd, userId, sizeof userId,0,(struct sockaddr *)&their_addr,&addr_len);
-        recvfrom(sockfd,nation,sizeof nation,0,(struct sockaddr *)&their_addr,&addr_len);
-        cout << "The server A has received userId "<<userId << " from nation" << nation << endl;
+        recvfrom(sockfd, nation, sizeof nation,0,(struct sockaddr *)&their_addr,&addr_len);
+        cout << "The server A has received userId "<<userId << " from nation " << nation << endl;
         string result;
         char tt[1024];
         result = algo(stoi(userId), nation);
