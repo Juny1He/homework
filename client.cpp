@@ -13,6 +13,7 @@
 #include <ctype.h>
 #include <vector>
 #include <string>
+#include <iostream>
 using namespace std;
 
 #define AWSPORT "25859"   //aws TCP port
@@ -79,9 +80,9 @@ int main(void){
         send(sockfd, nation, sizeof nation, 0);
         send(sockfd,inputId, sizeof inputId,0);
         printf("The client sent the nation %s, userId %s to servermain\n",nation,&inputId);
-        int result = 0;
+        char result[20];
         recv(sockfd,(char *)&result, sizeof result,0);
-        printf("The client received recommendation %d from servermain\n",result);
+        cout << "The client received recommendation %d from servermain" << endl;
     }
 
 }
