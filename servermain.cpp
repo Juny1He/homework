@@ -70,8 +70,9 @@ string udpFunc( char ch, char* userId, char* nation){
     string temp_sendToServerA = temp_nation+" "+temp_userId;
     char sendToServerA[1024];
     strncpy(sendToServerA,temp_sendToServerA.c_str(),temp_sendToServerA.length());
+    printf("Before: The servermain sent userId and nation %s to server %c.\n",sendToServerA,ch);
     sendto(mysock,sendToServerA, sizeof sendToServerA, 0, p->ai_addr,p->ai_addrlen);
-    printf("After: The servermain sent userId and nation %s to server %c.\n",ch);
+    printf("After: The servermain sent userId and nation %s to server %c.\n",sendToServerA,ch);
 
 
     char result[1024];
