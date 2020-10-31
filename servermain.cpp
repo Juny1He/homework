@@ -163,6 +163,8 @@ int main(){
         string recUser = udpFunc(ch,userId, nation);
         char tt[1024];
         strncpy(tt,recUser.c_str(),recUser.length());
+        cout << "The recommended user is tt: " << tt<< endl;
+        tt[recUser.length()] = '\0';
         send(new_fd,tt, sizeof tt,0);
         cout << "The recommended user is " << recUser << endl;
         close(new_fd);
