@@ -72,7 +72,8 @@ string udpFunc( char ch, char* userId, char* nation){
 
 
     char result[1024];
-    recvfrom(mysock,(char *)& result, sizeof result, 0, NULL,NULL);
+    recvfrom(mysock, result, sizeof result, 0, NULL,NULL);
+    printf("The recommendation result in function %s.\n",result);
     string temp(result);
     return temp;
 
