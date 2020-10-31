@@ -67,7 +67,7 @@ string udpFunc( char ch, char* userId, char* nation){
 //    using UDP to send data;
     sendto(mysock,userId,sizeof userId, 0, p->ai_addr,p->ai_addrlen);
     sendto(mysock,nation, sizeof nation,0,p->ai_addr,p->ai_addrlen);
-    printf("The servermain sent userId %s to server %c.\n",userId,ch);
+    printf("The servermain sent userId %s and nation %s to server %c.\n",userId,nation,ch);
     printf("The servermain received the nation %s, userId %s from client\n",nation,userId);
 
     char result[20];
@@ -149,7 +149,7 @@ int main(){
         char userId[20];
 //        char ch;
         char ch = 'A';
-        char nation[30];
+        char nation[1024];
         int num_relation;
         recv(new_fd, nation,sizeof nation, 0);
         recv(new_fd, userId,sizeof userId,0);
