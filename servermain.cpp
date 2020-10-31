@@ -70,7 +70,7 @@ string udpFunc( char ch, char* userId, char* nation){
     printf("The servermain sent userId %s and nation %s to server %c.\n",userId,nation,ch);
     printf("The servermain received the nation %s, userId %s from client\n",nation,userId);
 
-    char result[20];
+    char result[1024];
     recvfrom(mysock,(char *)& result, sizeof result, 0, NULL,NULL);
     string temp(result);
     return temp;
@@ -144,11 +144,11 @@ int main(){
         int client_port = addrTheir.sin_port;
 
 
-        char userId[1024];
+
 //        char ch;
         char ch = 'A';
+        char userId[1024];
         char nation[1024];
-        int num_relation;
         recv(new_fd, nation,sizeof nation, 0);
         recv(new_fd, userId,sizeof userId,0);
         printf("The servermain received the nation %s, userId %s from client\n",nation,userId);
@@ -157,7 +157,6 @@ int main(){
         strncpy(tt,recUser.c_str(),recUser.length());
         send(new_fd,tt, sizeof tt,0);
         cout << "The recommended user is " << recUser << endl;
-        printf("The AWS has successfully finished sending the reduction value to client.\n");
         close(new_fd);
     }
 }

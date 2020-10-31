@@ -25,21 +25,11 @@ void *get_in_addr(struct sockaddr *sa) {
     }
     return &(((struct sockaddr_in6*) sa)->sin6_addr);
 }
-void readFile(){
-    printf("readfile...\n");
-}
+
 int main(void){
     while(1){
     //  set up TCP --from Beej;
-        char inputId[20];
-        char nation[30];
-        printf("input your query ID\n");
-        scanf("%s",inputId);
-        printf("query Id is %s\n",inputId);
 
-        printf("input your nation\n");
-        scanf("%s",nation);
-        printf("query Id is %s\n",nation);
         int sockfd = 0;
         struct addrinfo hints, *servinfo, *p;
         int rv;
@@ -74,16 +64,24 @@ int main(void){
         freeaddrinfo(servinfo);
         printf("The client is up and running\n");
 
+        char userId[1024];
+        char nation[1024];
+        printf("input your query ID\n");
+        scanf("%s", userId);
+        printf("query Id is %s\n", userId);
 
-        readFile();
+        printf("input your nation\n");
+        scanf("%s",nation);
+        printf("query Id is %s\n",nation);
 
         send(sockfd, nation, sizeof nation, 0);
-        send(sockfd,inputId, sizeof inputId,0);
-        printf("The client sent the nation %s, userId %s to servermain\n",nation,inputId);
-        char result[20];
-        recv(sockfd,(char *)&result, sizeof result,0);
+        send(sockfd, userId, sizeof userId, 0);
+        printf("The client sent the nation %s, userId %s to servermain\n", nation, userId);
+        char result[1024];
+        recv(sockfd,result, sizeof result,0);
         string output_result(result);
         cout << "The client received recommendation --" << output_result << "-- from servermain" << endl;
+        close(sockfd);
     }
 
 }
