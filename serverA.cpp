@@ -18,6 +18,7 @@
 #include <string>
 #include <map>
 #include <queue>
+#include <sstream>
 //#include <priority_queue>
 
 #define MYPORT "21859"   // temp port number for ServerA
