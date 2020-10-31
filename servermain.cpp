@@ -95,7 +95,6 @@ int main(){
         fprintf(stderr, "getaddrinfo: %s\n", gai_strerror(rv));
         return 1;
     }
-    printf("a1");
     // loop through all the results and bind to the first we can
     for (p = servinfo; p != NULL; p = p->ai_next) {
         if ((sockfd = socket(p->ai_family, p->ai_socktype, p->ai_protocol))
@@ -115,7 +114,6 @@ int main(){
         }
         break;
     }
-    printf("a2");
     if (p == NULL) {
         fprintf(stderr, "server: failed to bind\n");
         return 2;
@@ -155,7 +153,7 @@ int main(){
         recv(new_fd, userId,sizeof userId,0);
         printf("The servermain received the nation %s, userId %s from client\n",nation,userId);
         string recUser = udpFunc(ch,userId, nation);
-        char tt[20];
+        char tt[1024];
         strncpy(tt,recUser.c_str(),recUser.length());
         send(new_fd,tt, sizeof tt,0);
         cout << "The recommended user is " << recUser << endl;
