@@ -82,7 +82,8 @@ int main(void){
         printf("The client sent the nation %s, userId %s to servermain\n",nation,&inputId);
         char result[20];
         recv(sockfd,(char *)&result, sizeof result,0);
-        cout << "The client received recommendation --" << (string)result << "-- from servermain" << endl;
+        string output_result(result);
+        cout << "The client received recommendation --" << output_result << "-- from servermain" << endl;
     }
 
 }

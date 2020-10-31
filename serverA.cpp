@@ -218,11 +218,11 @@ int main(void){
         printf("The server A has received userId %s from nation %s \n", userId, nation);
         string result;
         char tt[20];
-        strncpy(tt,result.c_str(),result.length()+1);
+        strncpy(tt,result.c_str(),result.length());
         result = algo(stoi(userId), nation);
         cout << "The Server A has get the recommendation" << result << endl;
         cout << "The Server A has get the recommendation tt: " << tt << endl;
-        sendto(sockfd,result.data(),result.length(),0,(struct sockaddr *)&their_addr, addr_len);
+        sendto(sockfd,tt,sizeof tt,0,(struct sockaddr *)&their_addr, addr_len);
         printf("The Server A has finished sending the recommendations to MainServer.\n");
     }
 }

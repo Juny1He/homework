@@ -72,7 +72,8 @@ string udpFunc( char ch, char* userId, char* nation){
 
     char result[20];
     recvfrom(mysock,(char *)& result, sizeof result, 0, NULL,NULL);
-    return result;
+    string temp(result);
+    return temp;
 
 }
 
@@ -154,7 +155,9 @@ int main(){
         recv(new_fd, userId,sizeof userId,0);
         printf("The servermain received the nation %s, userId %s from client\n",nation,userId);
         string recUser = udpFunc(ch,userId, nation);
-        send(new_fd,recUser.data(), recUser.length(),0);
+        char tt[20];
+        strncpy(tt,recUser.c_str(),recUser.length());
+        send(new_fd,tt, sizeof tt,0);
         cout << "The recommended user is " << recUser << endl;
         printf("The AWS has successfully finished sending the reduction value to client.\n");
         close(new_fd);
