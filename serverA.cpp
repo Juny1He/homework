@@ -226,6 +226,7 @@ int main(void){
         char tt[1024];
         result = algo(stoi(userId), nation);
         strncpy(tt,result.c_str(),result.length());
+        tt[result.length()] = '\0';
         cout << "The Server A has get the recommendation " << result << endl;
         cout << "The Server A has get the recommendation tt: " << tt << endl;
         sendto(sockfd,tt,sizeof tt,0,(struct sockaddr *)&their_addr, addr_len);
