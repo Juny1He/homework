@@ -213,6 +213,7 @@ int main(void){
         addr_len = sizeof their_addr;
         char nation[1024];
         char userId[1024];
+        cout << "The server A has received userId "<<userId << " from nation " << nation << endl;
         recvfrom(sockfd, userId, sizeof userId,0,(struct sockaddr *)&their_addr,&addr_len);
         recvfrom(sockfd, nation, sizeof nation,0,(struct sockaddr *)&their_addr,&addr_len);
         cout << "The server A has received userId "<<userId << " from nation " << nation << endl;
