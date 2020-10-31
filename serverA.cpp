@@ -114,7 +114,7 @@ string algo(int userId, string nation){
 
  void read_file() {
     
-     ifstream infile("/home/student/Documents/homework/testcases/testcase2/data2.txt");
+     ifstream infile("/home/student/Documents/homework/testcases/testcase2/data1.txt");
 
      string line;
      string nation;
@@ -212,25 +212,39 @@ int main(void){
     printf("The server A is up and running using UDP on port %s. \n",MYPORT);
     while(1){
         addr_len = sizeof their_addr;
-//        char nation[1024];
-//        char userId[1024];
         char recvFromServerMain[1024];
         recvfrom(sockfd, recvFromServerMain, sizeof recvFromServerMain,0,(struct sockaddr *)&their_addr,&addr_len);
         cout << "The server A has received userId from nation " << recvFromServerMain<< endl;
         string str_total(recvFromServerMain);
-        istringstream spliter(str_total);
-        string userId;
-        string nation;
-        spliter >> nation;
-        spliter >> userId;
-        string result;
-        char tt[1024];
-        result = algo(stoi(userId), nation);
-        strncpy(tt,result.c_str(),result.length());
-        tt[result.length()] = '\0';
-        cout << "The Server A has get the recommendation " << result << endl;
-        cout << "The Server A has get the recommendation tt: " << tt << endl;
-        sendto(sockfd,tt,sizeof tt,0,(struct sockaddr *)&their_addr, addr_len);
-        printf("The Server A has finished sending the recommendations to MainServer.\n");
+        if(str_total.compare("send data")){
+            string nationSet = "nation: ";
+            for(auto const& m : graph){
+                nationSet = nationSet+" "+m.first;
+            }
+            char tt[1024];
+            strncpy(tt,nationSet.c_str(),nationSet.length());
+            tt[nationSet.length()] = '\0';
+            cout << "The nationset: " << nationSet << endl;
+            sendto(sockfd,tt,sizeof tt, 0, (struct sockaddr *)&their_addr,addr_len);
+
+
+        }else{
+            istringstream spliter(str_total);
+            string userId;
+            string nation;
+            spliter >> nation;
+            spliter >> userId;
+            string result;
+            char tt[1024];
+            result = algo(stoi(userId), nation);
+            strncpy(tt,result.c_str(),result.length());
+            tt[result.length()] = '\0';
+            cout << "The Server A has get the recommendation " << result << endl;
+            cout << "The Server A has get the recommendation tt: " << tt << endl;
+            sendto(sockfd,tt,sizeof tt,0,(struct sockaddr *)&their_addr, addr_len);
+            printf("The Server A has finished sending the recommendations to MainServer.\n");
+        }
+
+
     }
 }

@@ -12,7 +12,8 @@
 #include <signal.h>
 #include <string>
 #include <iostream>
-
+#include <unordered_set>
+#include <sstream>
 #define TCPPORT "25859"   //TCP port
 #define UDPPORT "24859"		//UDP port
 #define HOST "localhost"
@@ -20,8 +21,12 @@
 #define PORTA "21859"
 #define PORTB "22859"
 #define PORTC "23859"
+
+
 using namespace std;
 
+unordered_set<string> nationA;
+unordered_set<string> nationB;
 void *get_in_addr(struct sockaddr *sa)
 {
     if (sa->sa_family == AF_INET) {
@@ -30,7 +35,20 @@ void *get_in_addr(struct sockaddr *sa)
     return &(((struct sockaddr_in6*)sa)->sin6_addr);
 }
 
-string udpFunc( char ch, char* userId, char* nation){
+void fillSet(unordered_set<string>  &x, string set){
+    istringstream spliter(set);
+    string s;
+    spliter >> s;
+    cout << s << " ";
+    while(spliter >> s){
+        x.insert(s);
+    }
+    for(auto const&k : x){
+        cout << k << " " ;
+    }
+    cout << endl;
+}
+void askForList(char ch){
     int mysock;
     struct addrinfo hints, *servinfo, *p;
     int rv;
@@ -39,6 +57,62 @@ string udpFunc( char ch, char* userId, char* nation){
     if(ch == 'A'){
         backserver_port = PORTA;
     }else if(ch == 'B'){
+        backserver_port = PORTB;
+    }
+//    set up UDP -- from Beej;
+    memset(&hints, 0, sizeof hints);
+    hints.ai_family = AF_UNSPEC;
+    hints.ai_socktype = SOCK_DGRAM;
+
+    if((rv = getaddrinfo(HOST,backserver_port,&hints,&servinfo)) != 0){
+        fprintf(stderr,"getaddrinfo: %s\n", gai_strerror(rv));
+        exit(1);
+    }
+//    loop through all the results and make a socket ---- Beej
+    for(p = servinfo; p!= NULL; p = p->ai_next){
+        if((mysock = socket(p->ai_family, p->ai_socktype, p->ai_protocol)) == -1){
+            perror("talker: socket");
+            continue;
+        }
+        break;
+    }
+
+    if(p == NULL){
+        fprintf(stderr, "talker: failed to bind socket\n");
+        exit(2);
+    }
+
+//    using UDP to send data;
+    string askData= "send data";
+    char sendToServerA[1024];
+    strncpy(sendToServerA,askData.c_str(),askData.length());
+    sendToServerA[askData.length()] = '\0';
+    printf("Ask data from %c.\n",ch);
+    sendto(mysock,sendToServerA, sizeof sendToServerA, 0, p->ai_addr,p->ai_addrlen);
+
+
+    char result[1024];
+    recvfrom(mysock, result, sizeof result, 0, NULL,NULL);
+    printf("The recommendation result in function %s.\n",result);
+    string nationSet(result);
+    if(ch == 'A'){
+        fillSet(nationA,nationSet);
+    }else{
+        fillSet(nationB,nationSet);
+    }
+}
+
+string udpFunc(char* userId, char* nation){
+    int mysock;
+    struct addrinfo hints, *servinfo, *p;
+    int rv;
+    char* backserver_port;
+    string cur(nation);
+    char ch = 'A';
+    if(nationA.find(cur) != nationA.end()){
+        backserver_port = PORTA;
+    }else{
+        ch = 'B';
         backserver_port = PORTB;
     }
 //    set up UDP -- from Beej;
@@ -135,7 +209,8 @@ int main(){
     }
     
     printf( "The AWS is up and running. \n");
-
+    askForList('A');
+    askForList('B');
     while(1){
         sin_size = sizeof their_addr;
         new_fd = accept(sockfd, (struct sockaddr *) &their_addr, &sin_size);
@@ -154,13 +229,12 @@ int main(){
 
 
 //        char ch;
-        char ch = 'A';
         char userId[1024];
         char nation[1024];
         recv(new_fd, nation,sizeof nation, 0);
         recv(new_fd, userId,sizeof userId,0);
         printf("The servermain received the nation %s, userId %s from client\n",nation,userId);
-        string recUser = udpFunc(ch,userId, nation);
+        string recUser = udpFunc(userId, nation);
         char tt[1024];
         strncpy(tt,recUser.c_str(),recUser.length());
         cout << "The recommended user is tt: " << tt<< endl;
