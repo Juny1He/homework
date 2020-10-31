@@ -113,7 +113,7 @@ string algo(int userId, string nation){
 
  void read_file() {
     
-     ifstream infile("/home/student/Documents/homework/testcases/testcase2/data1.txt");
+     ifstream infile("/home/student/Documents/homework/testcases/testcase2/data2.txt");
 
      string line;
      string nation;
