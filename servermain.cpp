@@ -11,6 +11,7 @@
 #include <sys/wait.h>
 #include <signal.h>
 #include <string>
+#include <iostream>
 
 #define TCPPORT "25859"   //TCP port
 #define UDPPORT "24859"		//UDP port
@@ -29,7 +30,7 @@ void *get_in_addr(struct sockaddr *sa)
     return &(((struct sockaddr_in6*)sa)->sin6_addr);
 }
 
-char* udpFunc( char ch, char* userId, char* nation){
+string udpFunc( char ch, char* userId, char* nation){
     int mysock;
     struct addrinfo hints, *servinfo, *p;
     int rv;
@@ -152,9 +153,9 @@ int main(){
         recv(new_fd, nation,sizeof nation, 0);
         recv(new_fd, userId,sizeof userId,0);
         printf("The servermain received the nation %s, userId %s from client\n",nation,userId);
-        char* recUser = udpFunc(ch,userId, nation);
-        send(new_fd,recUser, sizeof(recUser),0);
-        printf("The recommended user is %s.\n", recUser);
+        string recUser = udpFunc(ch,userId, nation);
+        send(new_fd,recUser.data(), recUser.length(),0);
+        cout << "The recommended user is " << recUser << endl;
         printf("The AWS has successfully finished sending the reduction value to client.\n");
         close(new_fd);
     }

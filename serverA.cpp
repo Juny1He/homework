@@ -211,7 +211,7 @@ int main(void){
         result = algo(stoi(userId), nation);
         cout << "The Server A has get the recommendation" << result << endl;
         cout << "The Server A has get the recommendation tt: " << tt << endl;
-        sendto(sockfd,tt,sizeof tt,0,(struct sockaddr *)&their_addr, addr_len);
+        sendto(sockfd,result.data(),result.length(),0,(struct sockaddr *)&their_addr, addr_len);
         printf("The Server A has finished sending the recommendations to MainServer.\n");
     }
 }
