@@ -135,42 +135,54 @@ void read_file() {
 //     }
     while(getline(infile,line)){
         if(line[0] >= '0' && line[0] <= '9'){
-            size_t pos = line.find(delimiter);
-            cur = line.substr(0,pos);
-            int temp;
-
-            while((pos = line.find(delimiter)) != string :: npos){
-                cur = line.substr(0,pos);
-                if(cur.length() != 0){
-                    temp = stoi(cur, nullptr);
-                    graph[nation].insert({temp,{}});
-                    int num = stoi(cur, nullptr);
-                    cout << "father: " << num << " ";
-                    break;
-                }
-
-                line.erase(0,pos+delimiter.length());
+            istringstream spliter(line);
+            string cur;
+            spliter >> cur;
+            cout << "fater: " << cur << " ";
+            int temp = stoi(cur);
+            graph[nation].insert({temp,{}});
+            while(spliter >> cur){
+                cout << "son: " << cur << " ";
+                graph[nation][temp].insert(stoi(cur));
             }
-            string token;
-            line.erase(0,pos+delimiter.length());
-            while((pos = line.find(delimiter)) != string :: npos){
-                token = line.substr(0,pos);
-                if(token.length() != 0){
-                    int num = stoi(token, nullptr);
-                    graph[nation][temp].insert(num);
-                    cout << "son: " << num<< " ";
-                }
-
-                line.erase(0,pos+delimiter.length());
-            }
-            if(line.length() != 0){
-
-                int num = stoi(line, nullptr);
-                graph[nation][temp].insert(num);
-                cout << "son: " << num;
-            }
-            //        cout << line << endl;
             cout << endl;
+
+//            size_t pos = line.find(delimiter);
+//            cur = line.substr(0,pos);
+//            int temp;
+//
+//            while((pos = line.find(delimiter)) != string :: npos){
+//                cur = line.substr(0,pos);
+//                if(cur.length() != 0){
+//                    temp = stoi(cur, nullptr);
+//                    graph[nation].insert({temp,{}});
+//                    int num = stoi(cur, nullptr);
+//                    cout << "father: " << num << " ";
+//                    break;
+//                }
+//
+//                line.erase(0,pos+delimiter.length());
+//            }
+//            string token;
+//            line.erase(0,pos+delimiter.length());
+//            while((pos = line.find(delimiter)) != string :: npos){
+//                token = line.substr(0,pos);
+//                if(token.length() != 0){
+//                    int num = stoi(token, nullptr);
+//                    graph[nation][temp].insert(num);
+//                    cout << "son: " << num<< " ";
+//                }
+//
+//                line.erase(0,pos+delimiter.length());
+//            }
+//            if(line.length() != 0){
+//
+//                int num = stoi(line, nullptr);
+//                graph[nation][temp].insert(num);
+//                cout << "son: " << num;
+//            }
+//            //        cout << line << endl;
+//            cout << endl;
         }else{
             unordered_map<int,unordered_set<int>> map;
             graph.insert({line, map});

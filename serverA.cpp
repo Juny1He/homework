@@ -112,14 +112,14 @@ string algo(int userId, string nation){
  }
 
 
- void read_file() {
-    
-     ifstream infile("/home/student/Documents/homework/testcases/testcase4/data1.txt");
+void read_file() {
 
-     string line;
-     string nation;
-     string cur;
-     string delimiter = " ";
+    ifstream infile("/home/student/Documents/homework/testcases/testcase4/data2.txt");
+
+    string line;
+    string nation;
+    string cur;
+    string delimiter = " ";
 
 //     void fillSet(unordered_set<string>  &x, string set){
 //         istringstream spliter(set);
@@ -134,54 +134,66 @@ string algo(int userId, string nation){
 //         }
 //         cout << endl;
 //     }
-     while(getline(infile,line)){
-         if(line[0] >= '0' && line[0] <= '9'){
-             size_t pos = line.find(delimiter);
-             cur = line.substr(0,pos);
-             int temp;
+    while(getline(infile,line)){
+        if(line[0] >= '0' && line[0] <= '9'){
+            istringstream spliter(line);
+            string cur;
+            spliter >> cur;
+            cout << "fater: " << cur << " ";
+            int temp = stoi(cur);
+            graph[nation].insert({temp,{}});
+            while(spliter >> cur){
+                cout << "son: " << cur << " ";
+                graph[nation][temp].insert(stoi(cur));
+            }
+            cout << endl;
 
-             while((pos = line.find(delimiter)) != string :: npos){
-                 cur = line.substr(0,pos);
-                 if(cur.length() != 0){
-                     temp = stoi(cur, nullptr);
-                     graph[nation].insert({temp,{}});
-                     int num = stoi(cur, nullptr);
-                     cout << "father: " << num << " ";
-                     break;
-                 }
+//            size_t pos = line.find(delimiter);
+//            cur = line.substr(0,pos);
+//            int temp;
+//
+//            while((pos = line.find(delimiter)) != string :: npos){
+//                cur = line.substr(0,pos);
+//                if(cur.length() != 0){
+//                    temp = stoi(cur, nullptr);
+//                    graph[nation].insert({temp,{}});
+//                    int num = stoi(cur, nullptr);
+//                    cout << "father: " << num << " ";
+//                    break;
+//                }
+//
+//                line.erase(0,pos+delimiter.length());
+//            }
+//            string token;
+//            line.erase(0,pos+delimiter.length());
+//            while((pos = line.find(delimiter)) != string :: npos){
+//                token = line.substr(0,pos);
+//                if(token.length() != 0){
+//                    int num = stoi(token, nullptr);
+//                    graph[nation][temp].insert(num);
+//                    cout << "son: " << num<< " ";
+//                }
+//
+//                line.erase(0,pos+delimiter.length());
+//            }
+//            if(line.length() != 0){
+//
+//                int num = stoi(line, nullptr);
+//                graph[nation][temp].insert(num);
+//                cout << "son: " << num;
+//            }
+//            //        cout << line << endl;
+//            cout << endl;
+        }else{
+            unordered_map<int,unordered_set<int>> map;
+            graph.insert({line, map});
+            nation = line;
+            cout << "The nation is " << nation << endl;
+        }
 
-                 line.erase(0,pos+delimiter.length());
-             }
-             string token;
-             line.erase(0,pos+delimiter.length());
-             while((pos = line.find(delimiter)) != string :: npos){
-                 token = line.substr(0,pos);
-                 if(token.length() != 0){
-                     int num = stoi(token, nullptr);
-                     graph[nation][temp].insert(num);
-                     cout << "son: " << num<< " ";
-                 }
-
-                 line.erase(0,pos+delimiter.length());
-             }
-             if(line.length() != 0){
-
-                 int num = stoi(line, nullptr);
-                 graph[nation][temp].insert(num);
-                 cout << "son: " << num;
-             }
- //        cout << line << endl;
-             cout << endl;
-         }else{
-             unordered_map<int,unordered_set<int>> map;
-             graph.insert({line, map});
-             nation = line;
-             cout << "The nation is " << nation << endl;
-         }
-          
-     }
-     print_map(graph);
- }
+    }
+    print_map(graph);
+}
 
 
 int main(void){
