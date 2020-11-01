@@ -31,7 +31,7 @@ struct cmp{
         //返回true时，a的优先级低于b的优先级（a排在b的后面）
 
         if( a.second== b.second ) return a.first > b.first;
-        return b.second > a.second;
+        return a.second < b.second;
     }
 };
 void print_small_map(unordered_map<int,unordered_set<int>> const &x)
@@ -51,7 +51,8 @@ string algo(int userId, string nation){
     print_small_map(cur);
     if(cur.find(userId) == cur.end()) {
         printf("cur.find(userId) == cur.end()\n");
-        return non;
+
+        return "not found";
     }
     unordered_set<int> curChildren = cur[userId];
     if(curChildren.size() == cur.size()-1) {
@@ -75,6 +76,7 @@ string algo(int userId, string nation){
                 cnt++;
             }
         }
+        cout << "K: " << k << " children.size(): " << children.size() << endl;
         pq.push({k,children.size()});
         notConnectedVSCommon.insert({k,cnt});
         if(max < cnt){
@@ -84,8 +86,13 @@ string algo(int userId, string nation){
 
     if(max == 0){
         pair<int,int> x = pq.top();
-        printf("max == 0, the result is %d", x.second);
-        return to_string(x.second);
+        printf("max == 0, the result is %d", x.first);
+        while(!pq.empty()){
+            pair<int,int> cur = pq.top();
+            cout << "{" << cur.first << "," << cur.second << "}" << endl;
+            pq.pop();
+        }
+        return to_string(x.first);
     }
     for(auto const&k : notConnectedVSCommon){
         if(k.second == max) {
@@ -238,7 +245,6 @@ int main(void){
         addr_len = sizeof their_addr;
         char recvFromServerMain[1024];
         recvfrom(sockfd, recvFromServerMain, sizeof recvFromServerMain,0,(struct sockaddr *)&their_addr,&addr_len);
-        cout << "The server A has received userId from nation " << recvFromServerMain<< endl;
         string str_total(recvFromServerMain);
         if(str_total.compare("send data") == 0){
             string nationSet = "nation: ";
@@ -248,9 +254,9 @@ int main(void){
             char tt[1024];
             strncpy(tt,nationSet.c_str(),nationSet.length());
             tt[nationSet.length()] = '\0';
-            cout << "The nationset: " << nationSet << endl;
-            sendto(sockfd,tt,sizeof tt, 0, (struct sockaddr *)&their_addr,addr_len);
 
+            sendto(sockfd,tt,sizeof tt, 0, (struct sockaddr *)&their_addr,addr_len);
+            cout << "The server A has sent a country list to Main Server" << endl;
 
         }else{
             istringstream spliter(str_total);
@@ -259,14 +265,20 @@ int main(void){
             spliter >> nation;
             spliter >> userId;
             string result;
+            cout << "The server A has received request for finding possible friends of User" << userId <<" in " << nation << endl;
             char tt[1024];
             result = algo(stoi(userId), nation);
+            if(result.compare("not found") == 0){
+                cout << "User" <<userId<<"does not show up in " << nation << endl;
+                cout << "The server A has sent \"User" << userId << "not found \" to Main Server";
+            }else{
+                cout << "The server A is searching possible friends for User" << userId << "..." << endl;
+                cout << "Here are the results: User" << result << endl;
+            }
             strncpy(tt,result.c_str(),result.length());
             tt[result.length()] = '\0';
-            cout << "The Server A has get the recommendation " << result << endl;
-            cout << "The Server A has get the recommendation tt: " << tt << endl;
             sendto(sockfd,tt,sizeof tt,0,(struct sockaddr *)&their_addr, addr_len);
-            printf("The Server A has finished sending the recommendations to MainServer.\n");
+            cout << "The server A has sent the result(s) to Main Server";
         }
 
 
