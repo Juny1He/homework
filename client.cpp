@@ -17,7 +17,7 @@
 using namespace std;
 
 #define AWSPORT "33053"   //aws TCP port
-#define HOST "localhost"
+#define HOST "127.0.0.1"
 
 void *get_in_addr(struct sockaddr *sa) {
     if (sa->sa_family == AF_INET) {
