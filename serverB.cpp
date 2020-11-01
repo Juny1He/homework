@@ -119,6 +119,20 @@ void read_file() {
     string nation;
     string cur;
     string delimiter = " ";
+
+//     void fillSet(unordered_set<string>  &x, string set){
+//         istringstream spliter(set);
+//         string s;
+//         spliter >> s;
+//         cout << s << " ";
+//         while(spliter >> s){
+//             x.insert(s);
+//         }
+//         for(auto const&k : x){
+//             cout << k << " " ;
+//         }
+//         cout << endl;
+//     }
     while(getline(infile,line)){
         if(line[0] >= '0' && line[0] <= '9'){
             size_t pos = line.find(delimiter);
@@ -131,7 +145,7 @@ void read_file() {
                     temp = stoi(cur, nullptr);
                     graph[nation].insert({temp,{}});
                     int num = stoi(cur, nullptr);
-                    cout << "test: " << num << " ";
+                    cout << "father: " << num << " ";
                     break;
                 }
 
@@ -142,10 +156,9 @@ void read_file() {
             while((pos = line.find(delimiter)) != string :: npos){
                 token = line.substr(0,pos);
                 if(token.length() != 0){
-
                     int num = stoi(token, nullptr);
                     graph[nation][temp].insert(num);
-                    cout << "test: " << num<< " ";
+                    cout << "son: " << num<< " ";
                 }
 
                 line.erase(0,pos+delimiter.length());
@@ -154,7 +167,7 @@ void read_file() {
 
                 int num = stoi(line, nullptr);
                 graph[nation][temp].insert(num);
-                cout << "test: " << num;
+                cout << "son: " << num;
             }
             //        cout << line << endl;
             cout << endl;

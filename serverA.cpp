@@ -120,6 +120,20 @@ string algo(int userId, string nation){
      string nation;
      string cur;
      string delimiter = " ";
+
+//     void fillSet(unordered_set<string>  &x, string set){
+//         istringstream spliter(set);
+//         string s;
+//         spliter >> s;
+//         cout << s << " ";
+//         while(spliter >> s){
+//             x.insert(s);
+//         }
+//         for(auto const&k : x){
+//             cout << k << " " ;
+//         }
+//         cout << endl;
+//     }
      while(getline(infile,line)){
          if(line[0] >= '0' && line[0] <= '9'){
              size_t pos = line.find(delimiter);
@@ -132,7 +146,7 @@ string algo(int userId, string nation){
                      temp = stoi(cur, nullptr);
                      graph[nation].insert({temp,{}});
                      int num = stoi(cur, nullptr);
-                     cout << "test: " << num << " ";
+                     cout << "father: " << num << " ";
                      break;
                  }
 
@@ -143,10 +157,9 @@ string algo(int userId, string nation){
              while((pos = line.find(delimiter)) != string :: npos){
                  token = line.substr(0,pos);
                  if(token.length() != 0){
-
                      int num = stoi(token, nullptr);
                      graph[nation][temp].insert(num);
-                     cout << "test: " << num<< " ";
+                     cout << "son: " << num<< " ";
                  }
 
                  line.erase(0,pos+delimiter.length());
@@ -155,7 +168,7 @@ string algo(int userId, string nation){
 
                  int num = stoi(line, nullptr);
                  graph[nation][temp].insert(num);
-                 cout << "test: " << num;
+                 cout << "son: " << num;
              }
  //        cout << line << endl;
              cout << endl;
