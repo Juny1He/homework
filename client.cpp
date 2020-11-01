@@ -16,7 +16,7 @@
 #include <iostream>
 using namespace std;
 
-#define AWSPORT "25859"   //aws TCP port
+#define AWSPORT "33053"   //aws TCP port
 #define HOST "localhost"
 
 void *get_in_addr(struct sockaddr *sa) {
