@@ -52,7 +52,7 @@ string algo(int userId, string nation){
         if(cur.find(userId) == cur.end()) {
             printf("cur.find(userId) == cur.end()\n");
 
-            return non;
+            return "not found";
         }
         unordered_set<int> curChildren = cur[userId];
         if(curChildren.size() == cur.size()-1) {
@@ -114,7 +114,7 @@ string algo(int userId, string nation){
 
  void read_file() {
     
-     ifstream infile("/home/student/Documents/homework/testcases/testcase3/data1.txt");
+     ifstream infile("/home/student/Documents/homework/testcases/testcase4/data1.txt");
 
      string line;
      string nation;
@@ -214,7 +214,6 @@ int main(void){
         addr_len = sizeof their_addr;
         char recvFromServerMain[1024];
         recvfrom(sockfd, recvFromServerMain, sizeof recvFromServerMain,0,(struct sockaddr *)&their_addr,&addr_len);
-        cout << "The server A has received userId from nation " << recvFromServerMain<< endl;
         string str_total(recvFromServerMain);
         if(str_total.compare("send data") == 0){
             string nationSet = "nation: ";
@@ -224,9 +223,9 @@ int main(void){
             char tt[1024];
             strncpy(tt,nationSet.c_str(),nationSet.length());
             tt[nationSet.length()] = '\0';
-            cout << "The nationset: " << nationSet << endl;
-            sendto(sockfd,tt,sizeof tt, 0, (struct sockaddr *)&their_addr,addr_len);
 
+            sendto(sockfd,tt,sizeof tt, 0, (struct sockaddr *)&their_addr,addr_len);
+            cout << "The server A has sent a country list to Main Server" << endl;
 
         }else{
             istringstream spliter(str_total);
@@ -235,14 +234,20 @@ int main(void){
             spliter >> nation;
             spliter >> userId;
             string result;
+            cout << "The server A has received request for finding possible friends of User" << userId <<" in " << nation << endl;
             char tt[1024];
             result = algo(stoi(userId), nation);
+            if(result.compare("not found")){
+                cout << "User" <<userId<<"does not show up in " << nation << endl;
+                cout << "The server A has sent \"User" << userId << "not found \" to Main Server";
+            }else{
+                cout << "The server A is searching possible friends for User" << userId << "..." << endl;
+                cout << "Here are the results: User" << result << endl;
+            }
             strncpy(tt,result.c_str(),result.length());
             tt[result.length()] = '\0';
-            cout << "The Server A has get the recommendation " << result << endl;
-            cout << "The Server A has get the recommendation tt: " << tt << endl;
             sendto(sockfd,tt,sizeof tt,0,(struct sockaddr *)&their_addr, addr_len);
-            printf("The Server A has finished sending the recommendations to MainServer.\n");
+            cout << "The server A has sent the result(s) to Main Server";
         }
 
 
