@@ -76,6 +76,7 @@ string algo(int userId, string nation){
                     cnt++;
                 }
             }
+            cout << "K: " << k << " children.size(): " << children.size() << endl;
             pq.push({k,children.size()});
             notConnectedVSCommon.insert({k,cnt});
             if(max < cnt){
@@ -262,7 +263,7 @@ int main(void){
             cout << "The server A has received request for finding possible friends of User" << userId <<" in " << nation << endl;
             char tt[1024];
             result = algo(stoi(userId), nation);
-            if(result.compare("not found")){
+            if(result.compare("not found") == 0){
                 cout << "User" <<userId<<"does not show up in " << nation << endl;
                 cout << "The server A has sent \"User" << userId << "not found \" to Main Server";
             }else{
