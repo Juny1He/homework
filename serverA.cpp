@@ -240,7 +240,7 @@ int main(void){
         return 0;
     }
     freeaddrinfo(servinfo);
-    printf("The server B is up and running using UDP on port %s. \n",MYPORT);
+    printf("The server A is up and running using UDP on port %s. \n",MYPORT);
     while(1){
         addr_len = sizeof their_addr;
         char recvFromServerMain[1024];
@@ -256,7 +256,7 @@ int main(void){
             tt[nationSet.length()] = '\0';
 
             sendto(sockfd,tt,sizeof tt, 0, (struct sockaddr *)&their_addr,addr_len);
-            cout << "The server B has sent a country list to Main Server" << endl;
+            cout << "The server A has sent a country list to Main Server" << endl;
 
         }else{
             istringstream spliter(str_total);
@@ -265,20 +265,20 @@ int main(void){
             spliter >> nation;
             spliter >> userId;
             string result;
-            cout << "The server B has received request for finding possible friends of User" << userId <<" in " << nation << endl;
+            cout << "The server A has received request for finding possible friends of User" << userId <<" in " << nation << endl;
             char tt[1024];
             result = algo(stoi(userId), nation);
             if(result.compare("not found") == 0){
                 cout << "User" <<userId<<"does not show up in " << nation << endl;
-                cout << "The server B has sent \"User" << userId << "not found \" to Main Server";
+                cout << "The server A has sent \"User" << userId << "not found \" to Main Server";
             }else{
-                cout << "The server B is searching possible friends for User" << userId << "..." << endl;
+                cout << "The server A is searching possible friends for User" << userId << "..." << endl;
                 cout << "Here are the results: User" << result << endl;
             }
             strncpy(tt,result.c_str(),result.length());
             tt[result.length()] = '\0';
             sendto(sockfd,tt,sizeof tt,0,(struct sockaddr *)&their_addr, addr_len);
-            cout << "The server B has sent the result(s) to Main Server";
+            cout << "The server A has sent the result(s) to Main Server";
         }
 
 
