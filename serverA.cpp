@@ -94,6 +94,14 @@ string algo(int userId, string nation){
             }
             return to_string(x.first);
         }
+        for(auto const&cur : notConnectedVSCommon){
+//            if(k.second == max) {
+//                printf("max != 0, the result is %d", k.first);
+//                return to_string(k.first);
+//            }
+            cout << "map : --- " << endl;
+            cout << "{" << cur.first << "," << cur.second << "}" << endl;
+        }
         for(auto const&k : notConnectedVSCommon){
             if(k.second == max) {
                 printf("max != 0, the result is %d", k.first);
