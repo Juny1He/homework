@@ -31,7 +31,7 @@ struct cmp{
         //返回true时，a的优先级低于b的优先级（a排在b的后面）
 
         if( a.second== b.second ) return a.first > b.first;
-        return b.second > a.second;
+        return a.second < b.second;
     }
 };
 void print_small_map(unordered_map<int,unordered_set<int>> const &x)
@@ -86,8 +86,13 @@ string algo(int userId, string nation){
 
         if(max == 0){
             pair<int,int> x = pq.top();
-            printf("max == 0, the result is %d", x.second);
-            return to_string(x.second);
+            printf("max == 0, the result is %d", x.first);
+            while(!pq.empty()){
+                pair<int,int> cur = pq.top();
+                cout << "{" << cur.first << "," << cur.second << "}" << endl;
+                pq.pop();
+            }
+            return to_string(x.first);
         }
         for(auto const&k : notConnectedVSCommon){
             if(k.second == max) {
