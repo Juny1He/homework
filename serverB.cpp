@@ -114,7 +114,7 @@ void print_map(std::unordered_map<string,unordered_map<int,unordered_set<int>>> 
 
 void read_file() {
 
-    ifstream infile("/home/student/Documents/homework/testcases/testcase2/data2.txt");
+    ifstream infile("/home/student/Documents/homework/testcases/testcase3/data2.txt");
 
     string line;
     string nation;
