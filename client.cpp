@@ -79,7 +79,13 @@ int main(void){
         printf("The client sent the nation %s, userId %s to servermain\n", nation, userId);
         char result[1024];
         recv(sockfd,result, sizeof result,0);
-        cout << "The client received recommendation --" << result << "-- from servermain" << endl;
+        string rr(result);
+        if(rr.compare("Country Name: Not found") == 0){
+            cout << "Country Name: Not found" << endl;
+        }else{
+            cout << "The client received recommendation --" << result << "-- from servermain" << endl;
+        }
+
         close(sockfd);
     }
 

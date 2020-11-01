@@ -21,7 +21,7 @@
 #include <sstream>
 //#include <priority_queue>
 
-#define MYPORT "22859"   // temp port number for ServerB
+#define MYPORT "31053"   // temp port number for ServerB
 #define HOST "localhost"
 using namespace std;
 
@@ -34,21 +34,10 @@ struct cmp{
         return a.second < b.second;
     }
 };
-void print_small_map(unordered_map<int,unordered_set<int>> const &x)
-{
-    for (auto const& pair: x) {
-        cout << "{" << pair.first << ":";
-        for(auto const& k : pair.second)
-            std::cout << k << ",";
-        cout << "}" << endl;
-    }
-
-}
 string algo(int userId, string nation){
     string non = "None";
-    cout << "The userId is " << userId << " and the nation is " << nation << endl;
+//    cout << "The userId is " << userId << " and the nation is " << nation << endl;
     unordered_map<int,unordered_set<int>> cur = graph[nation];
-    print_small_map(cur);
     if(cur.find(userId) == cur.end()) {
         printf("cur.find(userId) == cur.end()\n");
 
@@ -56,7 +45,7 @@ string algo(int userId, string nation){
     }
     unordered_set<int> curChildren = cur[userId];
     if(curChildren.size() == cur.size()-1) {
-        printf("curChildren.size() == cur.size()-1\n");
+//        printf("curChildren.size() == cur.size()-1\n");
         return non;
     }
     unordered_set<int> notConnected;
@@ -76,7 +65,7 @@ string algo(int userId, string nation){
                 cnt++;
             }
         }
-        cout << "K: " << k << " children.size(): " << children.size() << endl;
+//        cout << "K: " << k << " children.size(): " << children.size() << endl;
         pq.push({k,children.size()});
         notConnectedVSCommon.insert({k,cnt});
         if(max < cnt){
@@ -86,17 +75,17 @@ string algo(int userId, string nation){
 
     if(max == 0){
         pair<int,int> x = pq.top();
-        printf("max == 0, the result is %d", x.first);
+//        printf("max == 0, the result is %d", x.first);
         while(!pq.empty()){
             pair<int,int> cur = pq.top();
-            cout << "{" << cur.first << "," << cur.second << "}" << endl;
+//            cout << "{" << cur.first << "," << cur.second << "}" << endl;
             pq.pop();
         }
         return to_string(x.first);
     }
     for(auto const&k : notConnectedVSCommon){
         if(k.second == max) {
-            printf("max != 0, the result is %d", k.first);
+//            printf("max != 0, the result is %d", k.first);
             return to_string(k.first);
         }
     }
@@ -127,19 +116,6 @@ void read_file() {
     string cur;
     string delimiter = " ";
 
-//     void fillSet(unordered_set<string>  &x, string set){
-//         istringstream spliter(set);
-//         string s;
-//         spliter >> s;
-//         cout << s << " ";
-//         while(spliter >> s){
-//             x.insert(s);
-//         }
-//         for(auto const&k : x){
-//             cout << k << " " ;
-//         }
-//         cout << endl;
-//     }
     while(getline(infile,line)){
         if(line[0] >= '0' && line[0] <= '9'){
             istringstream spliter(line);
@@ -154,42 +130,6 @@ void read_file() {
             }
             cout << endl;
 
-//            size_t pos = line.find(delimiter);
-//            cur = line.substr(0,pos);
-//            int temp;
-//
-//            while((pos = line.find(delimiter)) != string :: npos){
-//                cur = line.substr(0,pos);
-//                if(cur.length() != 0){
-//                    temp = stoi(cur, nullptr);
-//                    graph[nation].insert({temp,{}});
-//                    int num = stoi(cur, nullptr);
-//                    cout << "father: " << num << " ";
-//                    break;
-//                }
-//
-//                line.erase(0,pos+delimiter.length());
-//            }
-//            string token;
-//            line.erase(0,pos+delimiter.length());
-//            while((pos = line.find(delimiter)) != string :: npos){
-//                token = line.substr(0,pos);
-//                if(token.length() != 0){
-//                    int num = stoi(token, nullptr);
-//                    graph[nation][temp].insert(num);
-//                    cout << "son: " << num<< " ";
-//                }
-//
-//                line.erase(0,pos+delimiter.length());
-//            }
-//            if(line.length() != 0){
-//
-//                int num = stoi(line, nullptr);
-//                graph[nation][temp].insert(num);
-//                cout << "son: " << num;
-//            }
-//            //        cout << line << endl;
-//            cout << endl;
         }else{
             unordered_map<int,unordered_set<int>> map;
             graph.insert({line, map});
@@ -198,7 +138,7 @@ void read_file() {
         }
 
     }
-    print_map(graph);
+//    print_map(graph);
 }
 
 

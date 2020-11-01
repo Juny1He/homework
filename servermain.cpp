@@ -14,13 +14,13 @@
 #include <iostream>
 #include <unordered_set>
 #include <sstream>
-#define TCPPORT "25859"   //TCP port
-#define UDPPORT "24859"		//UDP port
-#define HOST "localhost"
+#define TCPPORT "33053"      //TCP port
+#define UDPPORT 32053		//UDP port
+#define HOST "127.0.0.1"
 #define BACKLOG 10 // how many pending connections queue will hold
-#define PORTA "21859"
-#define PORTB "22859"
-#define PORTC "23859"
+#define PORTA "30053"
+#define PORTB "31053"
+
 
 
 using namespace std;
@@ -93,12 +93,24 @@ void askForList(char ch){
 
     char result[1024];
     recvfrom(mysock, result, sizeof result, 0, NULL,NULL);
-    printf("The recommendation result in function %s.\n",result);
+//    printf("The recommendation result in function %s.\n",result);
     string nationSet(result);
     if(ch == 'A'){
+        cout << "The Main server has received the country list from server A using UDP over port "
+             <<  UDPPORT << endl;
         fillSet(nationA,nationSet);
+        cout << "Server A" << endl;
+        for(auto const&k : nationA){
+            cout << k << endl;
+        }
     }else{
+        cout << "The Main server has received the country list from server B using UDP over port "
+             <<  UDPPORT << endl;
         fillSet(nationB,nationSet);
+        cout << "Server B" << endl;
+        for(auto const&k : nationB){
+            cout << k << endl;
+        }
     }
 }
 
@@ -111,9 +123,22 @@ string udpFunc(char* userId, char* nation){
     char ch = 'A';
     if(nationA.find(cur) != nationA.end()){
         backserver_port = PORTA;
-    }else{
+        cout << nation << " shows up in server A/B" << endl;
+        cout << "The Main Server has sent request from User" << userId
+             << " to server A/B using UDP over port"
+             << UDPPORT << endl;
+    }else if(nationB.find(cur) != nationB.end()){
         ch = 'B';
         backserver_port = PORTB;
+        cout << nation << " shows up in server A/B" << endl;
+        cout << "The Main Server has sent request from User" << userId
+             << " to server A/B using UDP over port"
+             << UDPPORT << endl;
+    }else{
+        cout << nation << " does not show up in server A&B" << endl;
+        cout << "The Main Server has sent “Country Name: Not found” to the client using TCP over port "
+             << TCPPORT << endl;
+        return "Country Name: Not found";
     }
 //    set up UDP -- from Beej;
     memset(&hints, 0, sizeof hints);
@@ -155,6 +180,16 @@ string udpFunc(char* userId, char* nation){
     recvfrom(mysock, result, sizeof result, 0, NULL,NULL);
     printf("The recommendation result in function %s.\n",result);
     string temp(result);
+    if(temp.compare("not found") == 0){
+        cout << "The Main server has received “User ID: Not found” from server " << ch << endl;
+        cout << "The Main Server has sent error to client using TCP over " << TCPPORT << endl;
+    }else{
+        cout << "The Main server has received searching result(s) of User " << userId
+             << " from server" << ch << endl;
+        cout << "The Main Server has sent searching result(s) to client using TCP over port "
+             << TCPPORT << endl;
+    }
+
     return temp;
 
 }
@@ -189,7 +224,7 @@ int main(){
             perror("setsockopt");
             exit(1);
         }
-        if (bind(sockfd, p->ai_addr, p->ai_addrlen) == -1) {
+        if (::bind(sockfd, p->ai_addr, p->ai_addrlen) == -1) {
             close(sockfd);
             perror("server: bind");
             continue;
@@ -208,9 +243,17 @@ int main(){
         exit(1);
     }
     
-    printf( "The AWS is up and running. \n");
+    printf( "The Main server is up and running. \n");
     askForList('A');
     askForList('B');
+
+    int udp_sockfd = socket(AF_INET,SOCK_DGRAM,0);
+    struct sockaddr_in udp_addr;
+    memset(&udp_addr,0,sizeof(udp_addr));
+    udp_addr.sin_family = AF_INET;
+    udp_addr.sin_addr.s_addr = inet_addr(HOST);
+    udp_addr.sin_port = htons(UDPPORT);
+    bind(udp_sockfd,(struct sockaddr *) &udp_addr,sizeof(udp_addr));
     while(1){
         sin_size = sizeof their_addr;
         new_fd = accept(sockfd, (struct sockaddr *) &their_addr, &sin_size);
@@ -231,12 +274,14 @@ int main(){
             char nation[1024];
             recv(new_fd, nation,sizeof nation, 0);
             recv(new_fd, userId,sizeof userId,0);
-            printf("The servermain received the nation %s, userId %s from client\n",nation,userId);
+//            printf("The servermain received the nation %s, userId %s from client\n",nation,userId);
+            cout << "The Main server has received the request on User " << userId << " in "
+            << nation << "from the client using TCP over port" << TCPPORT << endl;
             string recUser = udpFunc(userId, nation);
             char tt[1024];
             strncpy(tt,recUser.c_str(),recUser.length());
-            cout << "The recommended user is tt: " << tt<< endl;
             tt[recUser.length()] = '\0';
+
             send(new_fd,tt, sizeof tt,0);
             cout << "The recommended user is " << recUser << endl;
         }
