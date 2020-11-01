@@ -225,22 +225,22 @@ int main(){
         int len = sizeof(addrTheir);
         getpeername(new_fd, (struct sockaddr *) &addrTheir, (socklen_t *) &len);
         int client_port = addrTheir.sin_port;
+        if(!fork()){// this is the child process
+            close(sockfd);
+            char userId[1024];
+            char nation[1024];
+            recv(new_fd, nation,sizeof nation, 0);
+            recv(new_fd, userId,sizeof userId,0);
+            printf("The servermain received the nation %s, userId %s from client\n",nation,userId);
+            string recUser = udpFunc(userId, nation);
+            char tt[1024];
+            strncpy(tt,recUser.c_str(),recUser.length());
+            cout << "The recommended user is tt: " << tt<< endl;
+            tt[recUser.length()] = '\0';
+            send(new_fd,tt, sizeof tt,0);
+            cout << "The recommended user is " << recUser << endl;
+        }
 
-
-
-//        char ch;
-        char userId[1024];
-        char nation[1024];
-        recv(new_fd, nation,sizeof nation, 0);
-        recv(new_fd, userId,sizeof userId,0);
-        printf("The servermain received the nation %s, userId %s from client\n",nation,userId);
-        string recUser = udpFunc(userId, nation);
-        char tt[1024];
-        strncpy(tt,recUser.c_str(),recUser.length());
-        cout << "The recommended user is tt: " << tt<< endl;
-        tt[recUser.length()] = '\0';
-        send(new_fd,tt, sizeof tt,0);
-        cout << "The recommended user is " << recUser << endl;
         close(new_fd);
     }
 }

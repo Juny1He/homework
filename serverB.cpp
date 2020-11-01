@@ -51,7 +51,6 @@ string algo(int userId, string nation){
     print_small_map(cur);
     if(cur.find(userId) == cur.end()) {
         printf("cur.find(userId) == cur.end()\n");
-
         return non;
     }
     unordered_set<int> curChildren = cur[userId];
