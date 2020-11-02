@@ -282,8 +282,9 @@ int main(){
             tt[recUser.length()] = '\0';
             send(new_fd,tt, sizeof tt,0);
 
+            exit(0);
         }
-
         close(new_fd);
+
     }
 }
