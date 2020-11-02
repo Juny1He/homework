@@ -16,7 +16,7 @@
 #include <iostream>
 using namespace std;
 
-#define AWSPORT "33053"   //aws TCP port
+#define AWSPORT "33053"   
 #define HOST "127.0.0.1"
 
 void *get_in_addr(struct sockaddr *sa) {
@@ -27,6 +27,7 @@ void *get_in_addr(struct sockaddr *sa) {
 }
 
 int main(void){
+    cout << "The client is up and running." << endl;
     while(1){
     //  set up TCP --from Beej;
 
@@ -66,24 +67,27 @@ int main(void){
 
         char userId[1024];
         char nation[1024];
-        printf("input your query ID\n");
+        cout << "Please enter the User ID: " << endl;
         scanf("%s", userId);
-        printf("query Id is %s\n", userId);
 
-        printf("input your nation\n");
+        cout << "Please enter the Country Name: " << endl;
         scanf("%s",nation);
-        printf("query Id is %s\n",nation);
 
         send(sockfd, nation, sizeof nation, 0);
         send(sockfd, userId, sizeof userId, 0);
-        printf("The client sent the nation %s, userId %s to servermain\n", nation, userId);
+        cout << "The client has sent User" << userId << " and " << nation
+        << " to Main Server using TCP." << endl;
+
         char result[1024];
         recv(sockfd,result, sizeof result,0);
         string rr(result);
         if(rr.compare("Country Name: Not found") == 0){
-            cout << "Country Name: Not found" << endl;
+            cout << nation << " not found" << endl;
+        }else if(rr.compare("not found")){
+            cout << "User" << userId << " not found" << endl;
         }else{
-            cout << "The client received recommendation --" << result << "-- from servermain" << endl;
+            cout << "The client has received results from Main Server: User" << rr
+            << " is/are possible friend(s) of User" << userId << " in " << nation << endl;
         }
 
         close(sockfd);

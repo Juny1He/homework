@@ -281,9 +281,8 @@ int main(){
             char tt[1024];
             strncpy(tt,recUser.c_str(),recUser.length());
             tt[recUser.length()] = '\0';
-
             send(new_fd,tt, sizeof tt,0);
-            cout << "The recommended user is " << recUser << endl;
+
         }
 
         close(new_fd);

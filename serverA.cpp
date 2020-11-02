@@ -27,8 +27,7 @@ using namespace std;
 
 unordered_map<string ,unordered_map<int,unordered_set<int> > > graph;
 struct cmp{
-    bool operator() (pair<int,int> a, pair<int,int> b ){//默认是less函数
-        //返回true时，a的优先级低于b的优先级（a排在b的后面）
+    bool operator() (pair<int,int> a, pair<int,int> b ){
 
         if( a.second== b.second ) return a.first > b.first;
         return a.second < b.second;
@@ -94,7 +93,7 @@ string algo(int userId, string nation){
 //        }
         for(auto const&k : notConnectedVSCommon){
             if(k.second == max) {
-                printf("max != 0, the result is %d", k.first);
+//                printf("max != 0, the result is %d", k.first);
                 return to_string(k.first);
             }
         }
@@ -130,11 +129,11 @@ void read_file() {
             istringstream spliter(line);
             string cur;
             spliter >> cur;
-            cout << "fater: " << cur << " ";
+//            cout << "father: " << cur << " ";
             int temp = stoi(cur);
             graph[nation].insert({temp,{}});
             while(spliter >> cur){
-                cout << "son: " << cur << " ";
+//                cout << "son: " << cur << " ";
                 graph[nation][temp].insert(stoi(cur));
             }
             cout << endl;
