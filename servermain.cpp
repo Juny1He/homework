@@ -87,7 +87,6 @@ void askForList(char ch){
     char sendToServerA[1024];
     strncpy(sendToServerA,askData.c_str(),askData.length());
     sendToServerA[askData.length()] = '\0';
-    printf("Ask data from %c.\n",ch);
     sendto(mysock,sendToServerA, sizeof sendToServerA, 0, p->ai_addr,p->ai_addrlen);
 
 
@@ -249,11 +248,11 @@ int main(){
 
     int udp_sockfd = socket(AF_INET,SOCK_DGRAM,0);
     struct sockaddr_in udp_addr;
-    memset(&udp_addr,0,sizeof(udp_addr));
-    udp_addr.sin_family = AF_INET;
-    udp_addr.sin_addr.s_addr = inet_addr(HOST);
-    udp_addr.sin_port = htons(UDPPORT);
-    bind(udp_sockfd,(struct sockaddr *) &udp_addr,sizeof(udp_addr));
+//    memset(&udp_addr,0,sizeof(udp_addr));
+//    udp_addr.sin_family = AF_INET;
+//    udp_addr.sin_addr.s_addr = inet_addr(HOST);
+//    udp_addr.sin_port = htons(UDPPORT);
+//    bind(udp_sockfd,(struct sockaddr *) &udp_addr,sizeof(udp_addr));
     while(1){
         sin_size = sizeof their_addr;
         new_fd = accept(sockfd, (struct sockaddr *) &their_addr, &sin_size);

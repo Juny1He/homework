@@ -63,8 +63,6 @@ int main(void){
         }
 
         freeaddrinfo(servinfo);
-        printf("The client is up and running\n");
-
         char userId[1024];
         char nation[1024];
         cout << "Please enter the User ID: " << endl;

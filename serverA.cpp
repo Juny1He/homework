@@ -142,7 +142,7 @@ void read_file() {
             unordered_map<int,unordered_set<int>> map;
             graph.insert({line, map});
             nation = line;
-            cout << "The nation is " << nation << endl;
+//            cout << "The nation is " << nation << endl;
         }
 
     }
