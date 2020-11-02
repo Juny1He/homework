@@ -126,7 +126,6 @@ void read_file() {
 //                cout << "son: " << cur << " ";
                 graph[nation][temp].insert(stoi(cur));
             }
-            cout << endl;
 
         }else{
             unordered_map<int,unordered_set<int>> map;

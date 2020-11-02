@@ -67,9 +67,16 @@ int main(void){
         char nation[1024];
         cout << "Please enter the User ID: " << endl;
         scanf("%s", userId);
-
         cout << "Please enter the Country Name: " << endl;
         scanf("%s",nation);
+        string test_userId(userId);
+        if(test_userId.compare("") == 0){
+            continue;
+        }
+        string test_nation(nation);
+        if(test_nation.compare("") == 0){
+            continue;
+        }
 
         send(sockfd, nation, sizeof nation, 0);
         send(sockfd, userId, sizeof userId, 0);
