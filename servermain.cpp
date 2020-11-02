@@ -268,7 +268,7 @@ int main(){
         getpeername(new_fd, (struct sockaddr *) &addrTheir, (socklen_t *) &len);
         int client_port = addrTheir.sin_port;
         if(!fork()){// this is the child process
-            close(sockfd);
+//            close(sockfd);
             char userId[1024];
             char nation[1024];
             recv(new_fd, nation,sizeof nation, 0);
