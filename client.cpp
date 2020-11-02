@@ -16,7 +16,7 @@
 #include <iostream>
 using namespace std;
 
-#define AWSPORT "33053"   
+#define AWSPORT "33053"
 #define HOST "127.0.0.1"
 
 void *get_in_addr(struct sockaddr *sa) {
@@ -83,7 +83,7 @@ int main(void){
         string rr(result);
         if(rr.compare("Country Name: Not found") == 0){
             cout << nation << " not found" << endl;
-        }else if(rr.compare("not found")){
+        }else if(rr.compare("not found") == 0){
             cout << "User" << userId << " not found" << endl;
         }else{
             cout << "The client has received results from Main Server: User" << rr
