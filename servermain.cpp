@@ -39,14 +39,14 @@ void fillSet(unordered_set<string>  &x, string set){
     istringstream spliter(set);
     string s;
     spliter >> s;
-    cout << s << " ";
+//    cout << s << " ";
     while(spliter >> s){
         x.insert(s);
     }
-    for(auto const&k : x){
-        cout << k << " " ;
-    }
-    cout << endl;
+//    for(auto const&k : x){
+//        cout << k << " " ;
+//    }
+//    cout << endl;
 }
 void askForList(char ch){
     int mysock;
