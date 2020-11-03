@@ -108,7 +108,7 @@ string algo(int userId, string nation){
 //read
 void read_file() {
 
-    ifstream infile("/home/student/Documents/homework/testcases/testcase4/data1.txt");
+    ifstream infile("/home/student/Documents/homework/testcases/testcase3/data1.txt");
 
     string line;
     string nation;
@@ -207,7 +207,7 @@ int main(void){
             char tt[1024];
             result = algo(stoi(userId), nation);
             if(result.compare("not found") == 0){
-                cout << "User" <<userId<<"does not show up in " << nation << endl;
+                cout << "User" <<userId<<" does not show up in " << nation << endl;
                 cout << "The server A has sent \"User" << userId << "not found \" to Main Server";
             }else{
                 cout << "The server A is searching possible friends for User" << userId << "..." << endl;

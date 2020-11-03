@@ -37,7 +37,7 @@ string algo(int userId, string nation){
 //    cout << "The userId is " << userId << " and the nation is " << nation << endl;
     unordered_map<int,unordered_set<int>> cur = graph[nation];
     if(cur.find(userId) == cur.end()) {
-        printf("cur.find(userId) == cur.end()\n");
+//        printf("cur.find(userId) == cur.end()\n");
 
         return "not found";
     }
@@ -107,7 +107,7 @@ void print_map(std::unordered_map<string,unordered_map<int,unordered_set<int>>> 
 
 void read_file() {
 
-    ifstream infile("/home/student/Documents/homework/testcases/testcase4/data2.txt");
+    ifstream infile("/home/student/Documents/homework/testcases/testcase3/data2.txt");
 
     string line;
     string nation;
@@ -206,7 +206,7 @@ int main(void){
             char tt[1024];
             result = algo(stoi(userId), nation);
             if(result.compare("not found") == 0){
-                cout << "User" <<userId<<"does not show up in " << nation << endl;
+                cout << "User" <<userId<<" does not show up in " << nation << endl;
                 cout << "The server B has sent \"User" << userId << "not found \" to Main Server";
             }else{
                 cout << "The server B is searching possible friends for User" << userId << "..." << endl;
