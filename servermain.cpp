@@ -9,7 +9,6 @@
 #include <sys/socket.h>
 #include <arpa/inet.h>
 #include <sys/wait.h>
-#include <signal.h>
 #include <string>
 #include <iostream>
 #include <unordered_set>
@@ -39,14 +38,9 @@ void fillSet(unordered_set<string>  &x, string set){
     istringstream spliter(set);
     string s;
     spliter >> s;
-//    cout << s << " ";
     while(spliter >> s){
         x.insert(s);
     }
-//    for(auto const&k : x){
-//        cout << k << " " ;
-//    }
-//    cout << endl;
 }
 void askForList(char ch){
     int mysock;
@@ -92,7 +86,6 @@ void askForList(char ch){
 
     char result[1024];
     recvfrom(mysock, result, sizeof result, 0, NULL,NULL);
-//    printf("The recommendation result in function %s.\n",result);
     string nationSet(result);
     if(ch == 'A'){
         cout << "The Main server has received the country list from server A using UDP over port "
@@ -170,14 +163,11 @@ string udpFunc(char* userId, char* nation){
     char sendToServerA[1024];
     strncpy(sendToServerA,temp_sendToServerA.c_str(),temp_sendToServerA.length());
     sendToServerA[temp_nation.length()+temp_userId.length()+1] = '\0';
-//    printf("Before: The servermain sent userId and nation %s to server %c.\n",sendToServerA,ch);
     sendto(mysock,sendToServerA, sizeof sendToServerA, 0, p->ai_addr,p->ai_addrlen);
-//    printf("After: The servermain sent userId and nation %s to server %c.\n",sendToServerA,ch);
 
 
     char result[1024];
     recvfrom(mysock, result, sizeof result, 0, NULL,NULL);
-    printf("The recommendation result in function %s.\n",result);
     string temp(result);
     if(temp.compare("not found") == 0){
         cout << "The Main server has received “User ID: Not found” from server " << ch << endl;
@@ -248,11 +238,11 @@ int main(){
 
     int udp_sockfd = socket(AF_INET,SOCK_DGRAM,0);
     struct sockaddr_in udp_addr;
-//    memset(&udp_addr,0,sizeof(udp_addr));
-//    udp_addr.sin_family = AF_INET;
-//    udp_addr.sin_addr.s_addr = inet_addr(HOST);
-//    udp_addr.sin_port = htons(UDPPORT);
-//    bind(udp_sockfd,(struct sockaddr *) &udp_addr,sizeof(udp_addr));
+    memset(&udp_addr,0,sizeof(udp_addr));
+    udp_addr.sin_family = AF_INET;
+    udp_addr.sin_addr.s_addr = inet_addr(HOST);
+    udp_addr.sin_port = htons(UDPPORT);
+    bind(udp_sockfd,(struct sockaddr *) &udp_addr,sizeof(udp_addr));
     while(1){
         sin_size = sizeof their_addr;
         new_fd = accept(sockfd, (struct sockaddr *) &their_addr, &sin_size);
@@ -266,14 +256,12 @@ int main(){
         memset(&addrTheir, 0, sizeof(addrTheir));
         int len = sizeof(addrTheir);
         getpeername(new_fd, (struct sockaddr *) &addrTheir, (socklen_t *) &len);
-        int client_port = addrTheir.sin_port;
         if(!fork()){// this is the child process
 //            close(sockfd);
             char userId[1024];
             char nation[1024];
             recv(new_fd, nation,sizeof nation, 0);
             recv(new_fd, userId,sizeof userId,0);
-//            printf("The servermain received the nation %s, userId %s from client\n",nation,userId);
             cout << "The Main server has received the request on User " << userId << " in "
             << nation << "from the client using TCP over port" << TCPPORT << endl;
             string recUser = udpFunc(userId, nation);

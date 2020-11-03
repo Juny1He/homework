@@ -19,7 +19,6 @@
 #include <map>
 #include <queue>
 #include <sstream>
-//#include <priority_queue>
 
 #define MYPORT "31053"   // temp port number for ServerB
 #define HOST "localhost"
@@ -32,18 +31,18 @@ struct cmp{
         return a.second < b.second;
     }
 };
+
+//Input: queryId and nation
+//Algorithm function return the recommended user.
 string algo(int userId, string nation){
     string non = "None";
-//    cout << "The userId is " << userId << " and the nation is " << nation << endl;
     unordered_map<int,unordered_set<int>> cur = graph[nation];
     if(cur.find(userId) == cur.end()) {
-//        printf("cur.find(userId) == cur.end()\n");
 
         return "not found";
     }
     unordered_set<int> curChildren = cur[userId];
     if(curChildren.size() == cur.size()-1) {
-//        printf("curChildren.size() == cur.size()-1\n");
         return non;
     }
     unordered_set<int> notConnected;
@@ -63,7 +62,6 @@ string algo(int userId, string nation){
                 cnt++;
             }
         }
-//        cout << "K: " << k << " children.size(): " << children.size() << endl;
         pq.push({k,children.size()});
         notConnectedVSCommon.insert({k,cnt});
         if(max < cnt){
@@ -73,41 +71,26 @@ string algo(int userId, string nation){
 
     if(max == 0){
         pair<int,int> x = pq.top();
-//        printf("max == 0, the result is %d", x.first);
         while(!pq.empty()){
             pair<int,int> cur = pq.top();
-//            cout << "{" << cur.first << "," << cur.second << "}" << endl;
             pq.pop();
         }
         return to_string(x.first);
     }
     for(auto const&k : notConnectedVSCommon){
         if(k.second == max) {
-//            printf("max != 0, the result is %d", k.first);
             return to_string(k.first);
         }
     }
     return non;
 }
 
-void print_map(std::unordered_map<string,unordered_map<int,unordered_set<int>>> const &x)
-{
-    for(auto const& m : x){
-        cout << "nation: " << m.first<<endl;
-        for (auto const& pair: m.second) {
-            cout << "{" << pair.first << ":";
-            for(auto const& k : pair.second)
-                std::cout << k << ",";
-            cout << "}" << endl;
-        }
-    }
-
-}
 
 
+//read file
 void read_file() {
 
-    ifstream infile("/home/student/Documents/homework/testcases/testcase3/data2.txt");
+    ifstream infile("data2.txt");
 
     string line;
     string nation;
@@ -119,11 +102,9 @@ void read_file() {
             istringstream spliter(line);
             string cur;
             spliter >> cur;
-//            cout << "father: " << cur << " ";
             int temp = stoi(cur);
             graph[nation].insert({temp,{}});
             while(spliter >> cur){
-//                cout << "son: " << cur << " ";
                 graph[nation][temp].insert(stoi(cur));
             }
 
@@ -131,11 +112,9 @@ void read_file() {
             unordered_map<int,unordered_set<int>> map;
             graph.insert({line, map});
             nation = line;
-//            cout << "The nation is " << nation << endl;
         }
 
     }
-//    print_map(graph);
 }
 
 
