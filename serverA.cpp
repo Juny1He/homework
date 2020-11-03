@@ -26,6 +26,8 @@
 using namespace std;
 
 unordered_map<string ,unordered_map<int,unordered_set<int> > > graph;
+
+//This is priority_queue comparator.
 struct cmp{
     bool operator() (pair<int,int> a, pair<int,int> b ){
 
@@ -34,6 +36,8 @@ struct cmp{
     }
 };
 
+//Input: queryId and nation
+//Algorithm function return the recommended user.
 string algo(int userId, string nation){
         string non = "None";
 //        cout << "The userId is " << userId << " and the nation is " << nation << endl;
@@ -100,21 +104,8 @@ string algo(int userId, string nation){
         return non;
 }
 
- void print_map(std::unordered_map<string,unordered_map<int,unordered_set<int>>> const &x)
- {
-     for(auto const& m : x){
-         cout << "nation: " << m.first<<endl;
-         for (auto const& pair: m.second) {
-             cout << "{" << pair.first << ":";
-             for(auto const& k : pair.second)
-                 std::cout << k << ",";
-             cout << "}" << endl;
-         }
-     }
 
- }
-
-
+//read
 void read_file() {
 
     ifstream infile("/home/student/Documents/homework/testcases/testcase4/data1.txt");

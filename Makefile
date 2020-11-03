@@ -4,9 +4,11 @@ all:
 		g++ -std=c++11 -o serverB serverB.cpp
 		g++ -std=c++11 -o client client.cpp
 
-
-$(phony serverA): 
+.PHONY: serverA serverB servermain
+serverA:
 		./serverA
+serverB:
+		./serverB
 servermain:
 		./servermain
 client:

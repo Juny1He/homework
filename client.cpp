@@ -19,6 +19,7 @@ using namespace std;
 #define AWSPORT "33053"
 #define HOST "127.0.0.1"
 
+
 void *get_in_addr(struct sockaddr *sa) {
     if (sa->sa_family == AF_INET) {
         return &(((struct sockaddr_in*) sa)->sin_addr);
@@ -65,9 +66,9 @@ int main(void){
         freeaddrinfo(servinfo);
         char userId[1024];
         char nation[1024];
-        cout << "Please enter the User ID: " << endl;
+        cout << "Please enter the User ID: ";
         scanf("%s", userId);
-        cout << "Please enter the Country Name: " << endl;
+        cout << "Please enter the Country Name: ";
         scanf("%s",nation);
         string test_userId(userId);
         if(test_userId.compare("") == 0){

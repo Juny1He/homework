@@ -162,18 +162,18 @@ int main(void){
     }
     for(p = servinfo; p != NULL; p = p->ai_next){
         if((sockfd = socket(p->ai_family, p->ai_socktype,p->ai_protocol)) == -1){
-            perror("serverA: socket");
+            perror("serverB: socket");
             continue;
         }
         if (::bind(sockfd, p->ai_addr, p->ai_addrlen) == -1) {
             close(sockfd);
-            perror("serverA: bind");
+            perror("serverB: bind");
             continue;
         }
         break;
     }
     if(p == NULL){
-        fprintf(stderr, "serverA: failed to bind socket\n");
+        fprintf(stderr, "serverB: failed to bind socket\n");
         return 0;
     }
     freeaddrinfo(servinfo);
